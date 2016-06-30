@@ -2,22 +2,25 @@
 <head>
 
     <!-- inject:css -->
+    <link rel="stylesheet" href="css/semantic.css">
     <!-- endinject -->
 
-    <!-- bower:css -->
-    <!-- endbower -->
 
 </head>
-<body>
-<h3>
-    test x
-</h3>
+<body ng-app="BSDShiftApp">
+<div ui-view>
+  {{1+1}}
+</div>
 
 <!-- inject:js -->
+<script src="js/angular.js"></script>
+<script src="js/angular-ui-router.js"></script>
+<script src="js/jquery.js"></script>
+<script src="js/semantic.js"></script>
+<script src="js/app/app.js"></script>
+<script src="js/app/result/ResultController.js"></script>
 <!-- endinject -->
 
-<!-- bower:js -->
-<!-- endbower -->
 
 </body>
 </html>

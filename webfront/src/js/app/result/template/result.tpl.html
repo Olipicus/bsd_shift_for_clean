@@ -1,0 +1,24 @@
+<h2 class="ui center aligned icon header">
+  <i class="circular users icon"></i>
+  <div class="content">Result</div>
+</h2>
+
+<div class="doubling stackable five column ui grid container" ng-controller="ResultController as result">
+  <div class="column" ng-repeat="day in result">
+    <h4 class="ui top attached segment header center aligned" ng-class="day.color">
+      {{day.day}}
+    </h4>
+    <div class="ui segment attached">
+      <div class="ui divided items">
+      <div ng-repeat="member in day.member">
+        <div class="ui tiny circular image middle aligned"  style="padding:4px; width:100px;">
+          <img src="http://semantic-ui.com/images/wireframe/square-image.png">
+        </div>
+        <span>
+          {{member.name}}
+        </span>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

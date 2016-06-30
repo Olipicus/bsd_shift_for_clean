@@ -1,0 +1,23 @@
+{
+  "name": "BSDShiftForClean",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "TheerapatH <thetlpc@hotmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/Olipicus/bsd_shift_for_clean",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "angularjs#^1.5.7",
+    "jquery": "^3.0.0",
+    "semantic": "semantic-ui#^2.1.8",
+    "angular-ui-router": "^0.3.1"
+  }
+}
