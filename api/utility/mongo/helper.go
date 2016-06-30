@@ -62,3 +62,16 @@ func (h *Helper) UpdateData(collectionName string, id string, obj interface{}) e
 	update := bson.M{"$set": obj}
 	return c.UpdateId(bson.ObjectIdHex(id), update)
 }
+
+//Find : Find by condition
+func (h *Helper) Find(collectionName string, condition bson.M) (interface{}, error) {
+	c := h.session.DB(dbName).C(collectionName)
+	var obj interface{}
+	err := c.Find(condition).All(&obj)
+	return obj, err
+}
+
+//GetCollecitonObj : get collection from mgo
+func (h *Helper) GetCollecitonObj(collectionName string) *mgo.Collection {
+	return h.session.DB(dbName).C(collectionName)
+}

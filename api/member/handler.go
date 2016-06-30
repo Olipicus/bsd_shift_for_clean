@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"code.olipicus.com/go_rest_api/api/rest"
+	"code.olipicus.com/go_rest_api/api/utility/mongo"
 )
 
 const collection string = "member"
@@ -23,5 +24,7 @@ var Handler HandlerMember = HandlerMember{
 
 //Random handler
 func (handler *HandlerMember) Random(res http.ResponseWriter, req *http.Request) {
+	var mgh mongo.Helper
+	mgh.Init()
 
 }
