@@ -42,14 +42,13 @@ func calMaxMemberInDay(allMember int, memberHasDay int, dayCount int) int {
 	//log.Printf("allMember : %v , memberHasDay : %v , memberInDay : %v , dayCount : %v", allMember, memberHasDay, memberInDay, dayCount)
 	//log.Printf("%v >= %v(%v/%v)  %v", memberHasDay, dayCount, allMember, dayCount, allMember/dayCount)
 
+	//Prevent Error
 	if memberHasDay >= allMember {
 		return -1
 	}
 
 	avgMemberInDay := float64(allMember) / float64(dayCount)
-	if allMember <= dayCount {
-		return allMember
-	} else if memberHasDay >= dayCount*int(avgMemberInDay) {
+	if memberHasDay >= dayCount*int(avgMemberInDay) {
 		return int(math.Ceil(avgMemberInDay))
 	} else {
 		return int(math.Floor(avgMemberInDay))

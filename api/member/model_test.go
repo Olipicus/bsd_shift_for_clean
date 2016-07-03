@@ -26,7 +26,7 @@ func TestCalMaxMemberInDay(t *testing.T) {
 	//Param : allMember int, memberHasDay int, dayCount int
 
 	result := calMaxMemberInDay(4, 0, 5)
-	if result != 4 {
+	if result != 1 {
 		t.Errorf("Max Member should be 4 but get : %v", result)
 	}
 
