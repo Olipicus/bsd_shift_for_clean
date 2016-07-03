@@ -38,9 +38,13 @@ func RandomDay() string {
 	return dayList[numRandom]
 }
 
-func calMaxMemberInDay(allMember int, memberHasDay int, memberInDay int, dayCount int) int {
+func calMaxMemberInDay(allMember int, memberHasDay int, dayCount int) int {
 	//log.Printf("allMember : %v , memberHasDay : %v , memberInDay : %v , dayCount : %v", allMember, memberHasDay, memberInDay, dayCount)
 	//log.Printf("%v >= %v(%v/%v)  %v", memberHasDay, dayCount, allMember, dayCount, allMember/dayCount)
+
+	if memberHasDay >= allMember {
+		return -1
+	}
 
 	avgMemberInDay := float64(allMember) / float64(dayCount)
 	if allMember <= dayCount {
@@ -68,10 +72,10 @@ func AssignDay(id string, day string) Member {
 
 	allMember, _ := mgoCollection.Find(bson.M{}).Count()
 	memberHasDay, _ := mgoCollection.Find(bson.M{"day": bson.M{"$exists": 1}}).Count()
+
+	maxMemberInDay := calMaxMemberInDay(allMember, memberHasDay, len(dayList))
+
 	memberInDay, _ := mgoCollection.Find(bson.M{"day": day}).Count()
-
-	maxMemberInDay := calMaxMemberInDay(allMember, memberHasDay, memberInDay, len(dayList))
-
 	//log.Printf("maxPersonInDay : %v, countPersonInDay : %v", maxPersonInDay, countPersonInDay)
 	if memberInDay < maxMemberInDay {
 		//Assign Day to Member
