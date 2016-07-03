@@ -4,7 +4,11 @@ import (
 	"code.olipicus.com/go_rest_api/api/rest"
 )
 
-const collection string = "person"
+const (
+	collection   string = "people"
+	mongoAddress string = "127.0.0.1:27017"
+	dbName       string = "bsd_shift_for_clean"
+)
 
 // HandlerPerson struct
 type HandlerPerson struct {
@@ -14,7 +18,9 @@ type HandlerPerson struct {
 //Handler ...
 var Handler HandlerPerson = HandlerPerson{
 	rest.REST{
-		Collection: collection,
-		OBJ:        Person{},
+		MongoAddress: mongoAddress,
+		DBName:       dbName,
+		Collection:   collection,
+		OBJ:          Person{},
 	},
 }
