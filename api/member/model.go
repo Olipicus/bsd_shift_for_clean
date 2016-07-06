@@ -4,6 +4,7 @@ import (
 	"log"
 	"math"
 	"math/rand"
+	"sync"
 	"time"
 
 	"code.olipicus.com/go_rest_api/api/utility/mongo"
@@ -18,6 +19,8 @@ var dayList = map[int]string{
 	4: "Thursday",
 	5: "Friday",
 }
+
+var mu sync.Mutex
 
 //Member Model
 type Member struct {
@@ -48,43 +51,67 @@ func calMaxMemberInDay(allMember int, memberHasDay int, dayCount int) int {
 	}
 
 	avgMemberInDay := float64(allMember) / float64(dayCount)
+
 	if memberHasDay >= dayCount*int(avgMemberInDay) {
 		return int(math.Ceil(avgMemberInDay))
-	} else {
-		return int(math.Floor(avgMemberInDay))
 	}
+
+	return int(math.Floor(avgMemberInDay))
+}
+
+func getCount(id string, day string, mgh *mongo.Helper) (int, int, int) {
+	mu.Lock()
+	resultCollection := mgh.GetCollecitonObj("result")
+	memberCollection := mgh.GetCollecitonObj("member")
+	allMember, _ := memberCollection.Find(bson.M{}).Count()
+	memberHasDay, _ := resultCollection.Find(bson.M{"day": bson.M{"$exists": 1}}).Count()
+	memberInDay, _ := resultCollection.Find(bson.M{"day": day}).Count()
+
+	defer mu.Unlock()
+	return allMember, memberHasDay, memberInDay
+}
+
+func getDayAvailable(id string, mgh *mongo.Helper) string {
+	day := RandomDay()
+	allMember, memberHasDay, memberInDay := getCount(id, day, mgh)
+	maxMemberInDay := calMaxMemberInDay(allMember, memberHasDay, len(dayList))
+
+	if memberInDay < maxMemberInDay {
+		return day
+	}
+	return getDayAvailable(id, mgh)
+
 }
 
 //AssignDay Function
-func AssignDay(id string, day string) Member {
-	var mgh mongo.Helper
-	mgh.Init(Handler.MongoAddress, Handler.DBName)
-
-	defer mgh.Close()
+func AssignDay(id string, mgh *mongo.Helper) Member {
 
 	var objMember Member
-
 	mgh.GetOneDataToObj(Handler.Collection, id, &objMember)
-	log.Printf("%v", objMember)
+	//log.Printf("%v", objMember)
 
-	mgoCollection := mgh.GetCollecitonObj(collection)
-
-	allMember, _ := mgoCollection.Find(bson.M{}).Count()
-	memberHasDay, _ := mgoCollection.Find(bson.M{"day": bson.M{"$exists": 1}}).Count()
-
-	maxMemberInDay := calMaxMemberInDay(allMember, memberHasDay, len(dayList))
-
-	memberInDay, _ := mgoCollection.Find(bson.M{"day": day}).Count()
-	//log.Printf("maxPersonInDay : %v, countPersonInDay : %v", maxPersonInDay, countPersonInDay)
-	if memberInDay < maxMemberInDay {
-		//Assign Day to Member
-		objMember.Day = day
-
-	} else {
-		//Random Again
-		objMember = AssignDay(id, RandomDay())
-
+	//Don't Assign Day if already have day
+	if objMember.Day != "" {
+		return objMember
 	}
+
+	resultCollection := mgh.GetCollecitonObj("result")
+
+	day := getDayAvailable(id, mgh)
+
+	mu.Lock()
+	objMember.Day = day
+	cM, _ := resultCollection.Find(bson.M{"day": "Monday"}).Count()
+	cT, _ := resultCollection.Find(bson.M{"day": "Tuesday"}).Count()
+	cW, _ := resultCollection.Find(bson.M{"day": "Wednesday"}).Count()
+	cTh, _ := resultCollection.Find(bson.M{"day": "Thursday"}).Count()
+	cF, _ := resultCollection.Find(bson.M{"day": "Friday"}).Count()
+	log.Printf("%v %v %v %v %v", cM, cT, cW, cTh, cF)
+
+	//mgh.UpdateData(Handler.Collection, id, objMember)
+	mgh.InsertData("result", objMember)
+	mu.Unlock()
+
 	return objMember
 
 }

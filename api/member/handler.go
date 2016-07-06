@@ -1,7 +1,6 @@
 package member
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -41,10 +40,8 @@ func (handler *HandlerMember) Random(res http.ResponseWriter, req *http.Request)
 	vars := mux.Vars(req)
 	id := vars["id"]
 
-	objMember := AssignDay(id, RandomDay())
-	log.Printf("obj to save : %v", objMember)
+	objMember := AssignDay(id, &mgh)
 
-	mgh.UpdateData(handler.Collection, id, objMember)
-	handler.REST.ResponseDataResult(res, rest.Result{200, "success"}, nil)
+	handler.REST.ResponseDataResult(res, rest.Result{200, "success"}, objMember)
 
 }
