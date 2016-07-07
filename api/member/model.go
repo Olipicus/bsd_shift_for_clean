@@ -1,7 +1,6 @@
 package member
 
 import (
-	"log"
 	"math"
 	"math/rand"
 	"sync"
@@ -24,6 +23,7 @@ var mu sync.Mutex
 
 //Member Model
 type Member struct {
+	_id  bson.ObjectId
 	Name string `json:"name"`
 	Pic  string `json:"pic"`
 	Day  string `json:"day"`
@@ -35,7 +35,7 @@ type Members struct {
 }
 
 //RandomDay Function
-func RandomDay() string {
+func randomDay() string {
 	rand.Seed(time.Now().UnixNano())
 	numRandom := rand.Intn(6-1) + 1
 	return dayList[numRandom]
@@ -61,18 +61,17 @@ func calMaxMemberInDay(allMember int, memberHasDay int, dayCount int) int {
 
 func getCount(id string, day string, mgh *mongo.Helper) (int, int, int) {
 	mu.Lock()
-	resultCollection := mgh.GetCollecitonObj("result")
 	memberCollection := mgh.GetCollecitonObj("member")
 	allMember, _ := memberCollection.Find(bson.M{}).Count()
-	memberHasDay, _ := resultCollection.Find(bson.M{"day": bson.M{"$exists": 1}}).Count()
-	memberInDay, _ := resultCollection.Find(bson.M{"day": day}).Count()
+	memberHasDay, _ := memberCollection.Find(bson.M{"day": bson.M{"$exists": 1}}).Count()
+	memberInDay, _ := memberCollection.Find(bson.M{"day": day}).Count()
 
 	defer mu.Unlock()
 	return allMember, memberHasDay, memberInDay
 }
 
 func getDayAvailable(id string, mgh *mongo.Helper) string {
-	day := RandomDay()
+	day := randomDay()
 	allMember, memberHasDay, memberInDay := getCount(id, day, mgh)
 	maxMemberInDay := calMaxMemberInDay(allMember, memberHasDay, len(dayList))
 
@@ -86,32 +85,23 @@ func getDayAvailable(id string, mgh *mongo.Helper) string {
 //AssignDay Function
 func AssignDay(id string, mgh *mongo.Helper) Member {
 
-	var objMember Member
-	mgh.GetOneDataToObj(Handler.Collection, id, &objMember)
+	var member Member
+	mgh.GetOneDataToObj("member", id, &member)
+
 	//log.Printf("%v", objMember)
 
 	//Don't Assign Day if already have day
-	if objMember.Day != "" {
-		return objMember
+	if member.Day != "" {
+		return member
 	}
-
-	resultCollection := mgh.GetCollecitonObj("result")
 
 	day := getDayAvailable(id, mgh)
 
 	mu.Lock()
-	objMember.Day = day
-	cM, _ := resultCollection.Find(bson.M{"day": "Monday"}).Count()
-	cT, _ := resultCollection.Find(bson.M{"day": "Tuesday"}).Count()
-	cW, _ := resultCollection.Find(bson.M{"day": "Wednesday"}).Count()
-	cTh, _ := resultCollection.Find(bson.M{"day": "Thursday"}).Count()
-	cF, _ := resultCollection.Find(bson.M{"day": "Friday"}).Count()
-	log.Printf("%v %v %v %v %v", cM, cT, cW, cTh, cF)
-
-	//mgh.UpdateData(Handler.Collection, id, objMember)
-	mgh.InsertData("result", objMember)
+	member.Day = day
+	mgh.UpdateData("member", id, member)
 	mu.Unlock()
 
-	return objMember
+	return member
 
 }
