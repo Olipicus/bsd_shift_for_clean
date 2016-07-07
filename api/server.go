@@ -13,7 +13,6 @@ import (
 
 func main() {
 	router := mux.NewRouter()
-	router.HandleFunc("/", index)
 
 	//REST API For Person
 	router.HandleFunc("/person/{id}", person.Handler.GetDataByID).Methods("GET")
@@ -23,6 +22,7 @@ func main() {
 
 	router.HandleFunc("/member/random/{id}", member.Handler.Random).Methods("GET")
 	router.HandleFunc("/member/{id}", member.Handler.GetDataByID).Methods("GET")
+	router.HandleFunc("/", member.Handler.Result).Methods("GET")
 
 	log.Println("Server Start ...")
 	log.Fatal(http.ListenAndServe(":8081", router))

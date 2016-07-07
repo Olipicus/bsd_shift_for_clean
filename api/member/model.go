@@ -29,9 +29,11 @@ type Member struct {
 	Day  string `json:"day"`
 }
 
-//Members Model
-type Members struct {
-	Members []Member
+//ResultDay Model
+type ResultDay struct {
+	Day     string   `json:"day"`
+	Color   string   `json:"color"`
+	Members []Member `json:"members"`
 }
 
 //RandomDay Function
