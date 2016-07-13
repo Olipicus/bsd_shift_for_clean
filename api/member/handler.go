@@ -85,6 +85,7 @@ func (handler *HandlerMember) Random(res http.ResponseWriter, req *http.Request)
 
 	if err == mgo.ErrNotFound {
 		handler.REST.ResponseResult(res, rest.Result{StatusCode: 404, Description: "Data Not Found"})
+		return
 	}
 
 	objResult := AssignDay(id, &mgh)

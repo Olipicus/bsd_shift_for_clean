@@ -1,0 +1,22 @@
+<div class="ui divider">
+</div>
+<div class="ui grid five column center aligned">
+<div class="ui column" ng-repeat="member in result">
+<div class="ui card" >
+  <div class="image">
+    <img src="http://semantic-ui.com/images/wireframe/square-image.png">
+  </div>
+  <div class="content">
+    <a class="header">{{member.name}}</a>
+    <div class="meta">
+      <span>{{member.day}}</span>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<div ng-init="checkState()" class="ui grid one column center aligned">
+  <div class="ui column">
+      <button class="ui red massive button" ng-click="assignDay()">Start Random</button>
+  </div>
+</div>
