@@ -28,6 +28,22 @@ var mu sync.Mutex
 type MemberService struct {
 }
 
+//GetResultByDay : implement
+func (MemberService) GetResultByDay(day string) (result *member.ResultDay, err error) {
+	var mgh mongo.Helper
+	mgh.Init(member.MongoAddress, member.DatabaseName)
+	defer mgh.Close()
+
+	var resultDay member.ResultDay
+	result = &resultDay
+
+	result.Day = day
+	resultCollection := mgh.GetCollecitonObj(member.Collection)
+	err = resultCollection.Find(bson.M{"day": day}).All(&result.Members)
+
+	return
+}
+
 //AssignDay : Implement
 func (MemberService) AssignDay(id string) (listMember []*member.Member, err error) {
 	var mgh mongo.Helper

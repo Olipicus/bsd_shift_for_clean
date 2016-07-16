@@ -1,5 +1,4 @@
 <h2 class="ui center aligned icon header">
-  <i class="circular users icon"></i>
   <div class="content">Result</div>
 </h2>
 
@@ -14,7 +13,7 @@
       <div class="ui divided items">
       <div ng-repeat="member in day.members">
         <div class="ui tiny circular image middle aligned"  style="padding:4px; width:100px;">
-          <img src="http://semantic-ui.com/images/wireframe/square-image.png">
+          <img ng-src="{{'./images/member/' + member.pic}}"">
         </div>
         <span>
           {{member.name}}

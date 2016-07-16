@@ -83,6 +83,14 @@ func TestCalMaxMemberInDay(t *testing.T) {
 
 }
 
+func TestGetResultByDay(t *testing.T) {
+	var memberService MemberService
+	if _, err := memberService.GetResultByDay("Monday"); err != nil {
+		t.Errorf("Got Error ")
+	}
+
+}
+
 func TestAssignDay(t *testing.T) {
 	done := make(chan bool)
 	var mgh mongo.Helper

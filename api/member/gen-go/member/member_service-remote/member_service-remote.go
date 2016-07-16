@@ -23,6 +23,7 @@ func Usage() {
 	fmt.Fprintln(os.Stderr, "   assignDay(string id)")
 	fmt.Fprintln(os.Stderr, "   getResults()")
 	fmt.Fprintln(os.Stderr, "  Member getMember(string id)")
+	fmt.Fprintln(os.Stderr, "  ResultDay getResultByDay(string day)")
 	fmt.Fprintln(os.Stderr)
 	os.Exit(0)
 }
@@ -143,6 +144,16 @@ func main() {
 		argvalue0 := flag.Arg(1)
 		value0 := argvalue0
 		fmt.Print(client.GetMember(value0))
+		fmt.Print("\n")
+		break
+	case "getResultByDay":
+		if flag.NArg()-1 != 1 {
+			fmt.Fprintln(os.Stderr, "GetResultByDay requires 1 args")
+			flag.Usage()
+		}
+		argvalue0 := flag.Arg(1)
+		value0 := argvalue0
+		fmt.Print(client.GetResultByDay(value0))
 		fmt.Print("\n")
 		break
 	case "":

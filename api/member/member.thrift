@@ -21,4 +21,5 @@ service MemberService {
   list<Member> assignDay(1:string id),
   list<ResultDay> getResults(),
   Member getMember(1:string id),
+  ResultDay getResultByDay(1:string day),
 }

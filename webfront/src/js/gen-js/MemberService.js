@@ -347,6 +347,113 @@ MemberService_getMember_result.prototype.write = function(output) {
   return;
 };
 
+MemberService_getResultByDay_args = function(args) {
+  this.day = null;
+  if (args) {
+    if (args.day !== undefined && args.day !== null) {
+      this.day = args.day;
+    }
+  }
+};
+MemberService_getResultByDay_args.prototype = {};
+MemberService_getResultByDay_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.day = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+MemberService_getResultByDay_args.prototype.write = function(output) {
+  output.writeStructBegin('MemberService_getResultByDay_args');
+  if (this.day !== null && this.day !== undefined) {
+    output.writeFieldBegin('day', Thrift.Type.STRING, 1);
+    output.writeString(this.day);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+MemberService_getResultByDay_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = new ResultDay(args.success);
+    }
+  }
+};
+MemberService_getResultByDay_result.prototype = {};
+MemberService_getResultByDay_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.STRUCT) {
+        this.success = new ResultDay();
+        this.success.read(input);
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+MemberService_getResultByDay_result.prototype.write = function(output) {
+  output.writeStructBegin('MemberService_getResultByDay_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
+    this.success.write(output);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 MemberServiceClient = function(input, output) {
     this.input = input;
     this.output = (!output) ? input : output;
@@ -471,4 +578,44 @@ MemberServiceClient.prototype.recv_getMember = function() {
     return result.success;
   }
   throw 'getMember failed: unknown result';
+};
+MemberServiceClient.prototype.getResultByDay = function(day, callback) {
+  if (callback === undefined) {
+    this.send_getResultByDay(day);
+    return this.recv_getResultByDay();
+  } else {
+    var postData = this.send_getResultByDay(day, true);
+    return this.output.getTransport()
+      .jqRequest(this, postData, arguments, this.recv_getResultByDay);
+  }
+};
+
+MemberServiceClient.prototype.send_getResultByDay = function(day, callback) {
+  this.output.writeMessageBegin('getResultByDay', Thrift.MessageType.CALL, this.seqid);
+  var args = new MemberService_getResultByDay_args();
+  args.day = day;
+  args.write(this.output);
+  this.output.writeMessageEnd();
+  return this.output.getTransport().flush(callback);
+};
+
+MemberServiceClient.prototype.recv_getResultByDay = function() {
+  var ret = this.input.readMessageBegin();
+  var fname = ret.fname;
+  var mtype = ret.mtype;
+  var rseqid = ret.rseqid;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new MemberService_getResultByDay_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  if (null !== result.success) {
+    return result.success;
+  }
+  throw 'getResultByDay failed: unknown result';
 };
