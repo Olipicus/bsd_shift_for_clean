@@ -1,0 +1,24 @@
+<div ng-init="checkState()">
+
+  <div class="ui grid one column center aligned" >
+    <h1 class="ui column">
+       {{message}}
+    </h1>
+  </div>
+
+<div class="ui grid one column center aligned">
+  <div class="ui column">
+      <img class="ui center aligned" src="./images/Hat_Sorting.JPG" />
+  </div>
+  <div class="ui column">
+    <img class="ui center aligned" ng-src="{{'./images/member/' + member.pic}}" style="width:200px; height:200px;" />
+  </div>
+</div>
+
+
+<div class="ui grid one column center aligned">
+  <div class="ui column">
+      <button class="ui red massive button" ng-click="assignDay()">เริ่มคัดสรร</button>
+  </div>
+</div>
+</div>
