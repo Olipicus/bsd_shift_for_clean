@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -10,24 +11,20 @@ import (
 
 	"code.olipicus.com/bsd_shift_for_clean/api/member/gen-go/member"
 	"code.olipicus.com/bsd_shift_for_clean/api/member/memberimp"
-	"code.olipicus.com/go_rest_api/api/person"
 	"github.com/gorilla/mux"
 )
 
 func main() {
+	state := flag.String("state", "develop", "startup message")
+	flag.Parse()
+
 	router := mux.NewRouter()
-
-	//REST API For Person
-	router.HandleFunc("/person/{id}", person.Handler.GetDataByID).Methods("GET")
-	router.HandleFunc("/person", person.Handler.InsertData).Methods("POST")
-	router.HandleFunc("/person/{id}", person.Handler.UpdateByID).Methods("PUT")
-	router.HandleFunc("/person/{id}", person.Handler.RemoveByID).Methods("DELETE")
-
 	//router.HandleFunc("/member/random/{id}", member.Handler.Random).Methods("GET")
 	//router.HandleFunc("/member/{id}", member.Handler.GetDataByID).Methods("GET")
 	//router.HandleFunc("/", member.Handler.Result).Methods("GET")
 
 	memberService := memberimp.MemberService{}
+	memberService.State = *state
 
 	processor := member.NewMemberServiceProcessor(memberService)
 	protocolFactory := thrift.NewTJSONProtocolFactory()
@@ -37,7 +34,7 @@ func main() {
 
 	log.Println("Server Start ...")
 
-	log.Fatal(http.ListenAndServe(":8081", router))
+	log.Fatal(http.ListenAndServe(":8080", router))
 
 }
 

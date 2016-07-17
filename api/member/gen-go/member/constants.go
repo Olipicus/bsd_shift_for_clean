@@ -14,9 +14,5 @@ var _ = thrift.ZERO
 var _ = fmt.Printf
 var _ = bytes.Equal
 
-const MongoAddress = "127.0.0.1:27017"
-const DatabaseName = "bsd_shift_for_clean"
-const Collection = "member"
-
 func init() {
 }

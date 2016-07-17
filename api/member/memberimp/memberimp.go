@@ -1,9 +1,13 @@
 package memberimp
 
 import (
+	"encoding/json"
+	"flag"
+	"fmt"
 	"log"
 	"math"
 	"math/rand"
+	"os"
 	"sync"
 	"time"
 
@@ -11,48 +15,64 @@ import (
 	"gopkg.in/mgo.v2/bson"
 
 	"code.olipicus.com/bsd_shift_for_clean/api/member/gen-go/member"
-	"code.olipicus.com/go_rest_api/api/utility/mongo"
+	"code.olipicus.com/bsd_shift_for_clean/api/utility/mongo"
 )
 
-var dayList = map[int]string{
-	1: "Monday",
-	2: "Tuesday",
-	3: "Wednesday",
-	4: "Thursday",
-	5: "Friday",
+var (
+	dayList = map[int]string{
+		1: "Monday",
+		2: "Tuesday",
+		3: "Wednesday",
+		4: "Thursday",
+		5: "Friday",
+	}
+	mu sync.Mutex
+)
+
+//MemberService : Implement
+type MemberService struct {
+	State string
 }
 
-var mu sync.Mutex
+func (srv MemberService) getMongoHelper() (mgh mongo.Helper) {
+	flag.Parse()
 
-//MemberService : member service implement
-type MemberService struct {
+	file, _ := os.Open("config.json")
+	decoder := json.NewDecoder(file)
+
+	config := make(map[string]map[string]string)
+	err := decoder.Decode(&config)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+
+	mgh.Init(config[srv.State]["mongo_address"], config[srv.State]["db_name"])
+	return
 }
 
 //GetResultByDay : implement
-func (MemberService) GetResultByDay(day string) (result *member.ResultDay, err error) {
-	var mgh mongo.Helper
-	mgh.Init(member.MongoAddress, member.DatabaseName)
+func (srv MemberService) GetResultByDay(day string) (result *member.ResultDay, err error) {
+	mgh := srv.getMongoHelper()
 	defer mgh.Close()
 
 	var resultDay member.ResultDay
 	result = &resultDay
 
 	result.Day = day
-	resultCollection := mgh.GetCollecitonObj(member.Collection)
+	resultCollection := mgh.GetCollecitonObj("member")
 	err = resultCollection.Find(bson.M{"day": day}).All(&result.Members)
 
 	return
 }
 
 //AssignDay : Implement
-func (MemberService) AssignDay(id string) (listMember []*member.Member, err error) {
-	var mgh mongo.Helper
-	mgh.Init(member.MongoAddress, member.DatabaseName)
+func (srv MemberService) AssignDay(id string) (listMember []*member.Member, err error) {
+	mgh := srv.getMongoHelper()
 	defer mgh.Close()
 
 	var objMember member.Member
 
-	err = mgh.GetOneDataToObj(member.Collection, id, &objMember)
+	err = mgh.GetOneDataToObj("member", id, &objMember)
 	log.Print(id)
 
 	if err == mgo.ErrNotFound {
@@ -61,7 +81,7 @@ func (MemberService) AssignDay(id string) (listMember []*member.Member, err erro
 
 	objResult := assignDay(id, &mgh)
 
-	resultCollection := mgh.GetCollecitonObj(member.Collection)
+	resultCollection := mgh.GetCollecitonObj("member")
 	err = resultCollection.Find(bson.M{"day": objResult.Day}).All(&listMember)
 
 	return
@@ -69,21 +89,18 @@ func (MemberService) AssignDay(id string) (listMember []*member.Member, err erro
 }
 
 //GetMember : Implement
-func (MemberService) GetMember(id string) (objMember *member.Member, err error) {
-	var mgh mongo.Helper
-	mgh.Init(member.MongoAddress, member.DatabaseName)
+func (srv MemberService) GetMember(id string) (objMember *member.Member, err error) {
+	mgh := srv.getMongoHelper()
 	defer mgh.Close()
 
-	err = mgh.GetOneDataToObj(member.Collection, id, &objMember)
+	err = mgh.GetOneDataToObj("member", id, &objMember)
 
 	return
 }
 
 //GetResults : Implement
-func (MemberService) GetResults() (listResult []*member.ResultDay, err error) {
-
-	var mgh mongo.Helper
-	mgh.Init(member.MongoAddress, member.DatabaseName)
+func (srv MemberService) GetResults() (listResult []*member.ResultDay, err error) {
+	mgh := srv.getMongoHelper()
 	defer mgh.Close()
 
 	dayColor := map[int]string{
@@ -98,7 +115,7 @@ func (MemberService) GetResults() (listResult []*member.ResultDay, err error) {
 		var result member.ResultDay
 		result.Day = dayList[i]
 		result.Color = dayColor[i]
-		resultCollection := mgh.GetCollecitonObj(member.Collection)
+		resultCollection := mgh.GetCollecitonObj("member")
 		err = resultCollection.Find(bson.M{"day": dayList[i]}).All(&result.Members)
 
 		listResult = append(listResult, &result)

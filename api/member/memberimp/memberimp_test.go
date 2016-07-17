@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"code.olipicus.com/bsd_shift_for_clean/api/member/gen-go/member"
-	"code.olipicus.com/go_rest_api/api/utility/mongo"
+	"code.olipicus.com/bsd_shift_for_clean/api/utility/mongo"
 	"gopkg.in/mgo.v2/bson"
 )
 

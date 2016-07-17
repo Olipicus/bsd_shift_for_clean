@@ -208,6 +208,3 @@ ResultDay.prototype.write = function(output) {
   return;
 };
 
-MongoAddress = '127.0.0.1:27017';
-DatabaseName = 'bsd_shift_for_clean';
-Collection = 'member';
