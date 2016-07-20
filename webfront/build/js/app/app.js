@@ -20,5 +20,5 @@ app.config(function($stateProvider, $urlRouterProvider){
 });
 
 app.constant("AppConfig", {
-    "api_url" : "http://bsd.olipicus.com:8080/"
+    "api_url" : "http://127.0.0.1:8080/"
 });
