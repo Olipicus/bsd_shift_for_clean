@@ -21,7 +21,7 @@ webfront:
   ports:
     - "9000:9000"
 
-webcache:
+proxy:
   image: nginx:alpine
   volumes:
     - ./webcache/nginx.conf:/etc/nginx/nginx.conf:ro
@@ -29,3 +29,4 @@ webcache:
     - "80:80"
   links:
     - webfront
+    - api
