@@ -9,6 +9,7 @@ Member = function(args) {
   this._id = null;
   this.name = null;
   this.pic = null;
+  this.message = null;
   this.day = null;
   if (args) {
     if (args._id !== undefined && args._id !== null) {
@@ -19,6 +20,9 @@ Member = function(args) {
     }
     if (args.pic !== undefined && args.pic !== null) {
       this.pic = args.pic;
+    }
+    if (args.message !== undefined && args.message !== null) {
+      this.message = args.message;
     }
     if (args.day !== undefined && args.day !== null) {
       this.day = args.day;
@@ -62,6 +66,13 @@ Member.prototype.read = function(input) {
       break;
       case 4:
       if (ftype == Thrift.Type.STRING) {
+        this.message = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 5:
+      if (ftype == Thrift.Type.STRING) {
         this.day = input.readString().value;
       } else {
         input.skip(ftype);
@@ -93,8 +104,13 @@ Member.prototype.write = function(output) {
     output.writeString(this.pic);
     output.writeFieldEnd();
   }
+  if (this.message !== null && this.message !== undefined) {
+    output.writeFieldBegin('message', Thrift.Type.STRING, 4);
+    output.writeString(this.message);
+    output.writeFieldEnd();
+  }
   if (this.day !== null && this.day !== undefined) {
-    output.writeFieldBegin('day', Thrift.Type.STRING, 4);
+    output.writeFieldBegin('day', Thrift.Type.STRING, 5);
     output.writeString(this.day);
     output.writeFieldEnd();
   }
