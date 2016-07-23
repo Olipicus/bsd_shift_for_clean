@@ -2,7 +2,6 @@ package memberimp
 
 import (
 	"encoding/json"
-	"flag"
 	"fmt"
 	"log"
 	"math"
@@ -35,8 +34,6 @@ type MemberService struct {
 }
 
 func (srv MemberService) getMongoHelper() (mgh mongo.Helper) {
-	flag.Parse()
-
 	file, _ := os.Open("config.json")
 	decoder := json.NewDecoder(file)
 

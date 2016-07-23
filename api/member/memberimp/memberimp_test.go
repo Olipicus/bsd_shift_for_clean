@@ -4,8 +4,6 @@ import (
 	"log"
 	"testing"
 
-	"code.olipicus.com/bsd_shift_for_clean/api/member/gen-go/member"
-	"code.olipicus.com/bsd_shift_for_clean/api/utility/mongo"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -93,8 +91,8 @@ func TestGetResultByDay(t *testing.T) {
 
 func TestAssignDay(t *testing.T) {
 	done := make(chan bool)
-	var mgh mongo.Helper
-	mgh.Init(member.MongoAddress, member.DatabaseName)
+	srv := MemberService{State: "develop"}
+	mgh := srv.getMongoHelper()
 	defer mgh.Close()
 
 	callFunc := func(id string) {

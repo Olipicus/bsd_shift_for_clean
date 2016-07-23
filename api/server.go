@@ -44,8 +44,8 @@ func NewThriftHandlerFunc(processor thrift.TProcessor,
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("%v", r.Body)
-		//w.Header().Set("Access-Control-Allow-Origin", "*")
-		//w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
 
 		w.Header().Add("Content-Type", "application/x-thrift")
 
