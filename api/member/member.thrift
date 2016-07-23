@@ -4,7 +4,8 @@ struct Member {
   1: string _id,
   2: string name,
   3: string pic,
-  4: string day
+  4: string message,
+  5: string day
 }
 
 struct ResultDay {

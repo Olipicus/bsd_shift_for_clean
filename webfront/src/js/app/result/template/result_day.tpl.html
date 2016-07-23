@@ -1,16 +1,16 @@
 <div ng-init="getResultByDay()">
 
-<div class="ui grid one column center aligned" >
+<div class="ui grid one column center aligned" style="padding-top:20px" >
   <h1 class="ui column">
      {{result[0].day}}
   </h1>
 </div>
 
-<div class="ui grid five column center aligned">
+<div class="ui five column doubling grid center aligned" style="padding:20px;">
 <div class="ui column" ng-repeat="member in result[0].members">
-<div class="ui card" style="width:200px" >
+<div class="ui card" >
   <div class="image">
-    <img ng-src="{{'./images/member/' + member.pic}}" style="width:200px; height:200px;">
+    <img ng-src="{{'./images/member/' + member.pic}}" style="width:100%;">
   </div>
   <div class="content">
     <a class="header">{{member.name}}</a>
@@ -20,6 +20,10 @@
   </div>
 </div>
 </div>
+</div>
+
+<div class="ui grid one column center aligned" >
+  <button class="ui green massive button" onclick="javascript:location.href='/#/result'">Result ทั้งหมด</button>
 </div>
 
 </div>

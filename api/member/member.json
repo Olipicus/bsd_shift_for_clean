@@ -2,117 +2,169 @@
 {
     "_id" : ObjectId("577e71c66d0a227f2293343d"),
     "name" : "Tong",
-    "pic" : ""
+    "pic" : "Tong.jpg",
+    "message" : "ชั่ว ๆ แบบนี้",
+    "day" : "Friday"
 }
 
 /* 2 */
 {
     "_id" : ObjectId("577e71d16d0a227f2293343e"),
     "name" : "Notkung",
-    "pic" : ""
+    "pic" : "Notkung.jpg",
+    "message" : "เคย อยู่วันจันทร์ อยู่แล้วนี่",
+    "day" : "Friday"
 }
 
 /* 3 */
 {
     "_id" : ObjectId("577e71da6d0a227f2293343f"),
     "name" : "Chai",
-    "pic" : ""
+    "pic" : "Chai.jpg",
+    "message" : "อยากอยู่เวรใหม่สินะ",
+    "day" : "Monday"
 }
 
 /* 4 */
 {
     "_id" : ObjectId("577e71e86d0a227f22933440"),
     "name" : "Kit",
-    "pic" : ""
+    "pic" : "Kit.jpg",
+    "message" : "อยากอยู่เวรเดิมเหรอ",
+    "day" : "Thursday"
 }
 
 /* 5 */
 {
     "_id" : ObjectId("577e71f16d0a227f22933441"),
     "name" : "Best",
-    "pic" : ""
+    "pic" : "Best.jpg",
+    "message" : "อยู่ที่นี่ไปก่อนนะ...",
+    "day" : "Tuesday"
 }
 
 /* 6 */
 {
     "_id" : ObjectId("577e7b1e6d0a227f22933444"),
-    "name" : "Elle"
+    "name" : "Elle",
+    "pic" : "Elle.jpg",
+    "message" : "เป็นผู้หญิงสินะ งั้น...",
+    "day" : "Wednesday"
 }
 
 /* 7 */
 {
     "_id" : ObjectId("577e7b336d0a227f22933445"),
-    "name" : "Pol"
+    "name" : "Pol",
+    "pic" : "Pol.jpg",
+    "message" : "ไม่กินเผ็ด สินะ งั้น",
+    "day" : "Wednesday"
 }
 
 /* 8 */
 {
     "_id" : ObjectId("577e7b3d6d0a227f22933446"),
-    "name" : "Gap"
+    "name" : "Gap",
+    "pic" : "Gap.jpg",
+    "message" : "อยากอยู่วันจันทร์สินะ",
+    "day" : "Tuesday"
 }
 
 /* 9 */
 {
     "_id" : ObjectId("577e7b486d0a227f22933447"),
-    "name" : "Tung"
+    "name" : "Tung",
+    "pic" : "Tung.jpg",
+    "message" : "มาทำงานเช้า อย่างนี้",
+    "day" : "Monday"
 }
 
 /* 10 */
 {
     "_id" : ObjectId("577e7b626d0a227f22933448"),
-    "name" : "Man"
+    "name" : "Man",
+    "pic" : "Man.jpg",
+    "message" : "Man Man อย่างนี้...",
+    "day" : "Thursday"
 }
 
 /* 11 */
 {
     "_id" : ObjectId("577e7b626d0a227f22933449"),
-    "name" : "Arm"
+    "name" : "Arm",
+    "pic" : "Arm.jpg",
+    "message" : "เข้าวัดบ่อยสินะ อืมม...",
+    "day" : "Monday"
 }
 
 /* 12 */
 {
     "_id" : ObjectId("577e7bb56d0a227f2293344a"),
-    "name" : "Tum"
+    "name" : "Tum",
+    "pic" : "Tum.jpg",
+    "message" : "วิ่ง บ่อย ๆ อย่างนี้ ไปที่นี่แล้วกัน",
+    "day" : "Wednesday"
 }
 
 /* 13 */
 {
     "_id" : ObjectId("577e7bb56d0a227f2293344b"),
-    "name" : "Boy"
+    "name" : "Boy",
+    "pic" : "Boy.jpg",
+    "message" : "มาจาก อีสาน สินะ งั้นไปที่นี่ล่ะกัน",
+    "day" : "Tuesday"
 }
 
 /* 14 */
 {
     "_id" : ObjectId("577e7bb56d0a227f2293344c"),
-    "name" : "Jao"
+    "name" : "Jao",
+    "pic" : "Jao.jpg",
+    "message" : "ทำอาหารเก่ง หวังว่าจะล้างเก่งด้วยนะ",
+    "day" : "Friday"
 }
 
 /* 15 */
 {
     "_id" : ObjectId("577e7bb56d0a227f2293344d"),
-    "name" : "Nok"
+    "name" : "Nok",
+    "pic" : "Nok.jpg",
+    "message" : "เก็บตังค์คนอื่น บ่อย ๆ แบบนี้",
+    "day" : "Thursday"
 }
 
 /* 16 */
 {
     "_id" : ObjectId("577e7bb56d0a227f2293344e"),
-    "name" : "Hok"
+    "name" : "Hok",
+    "pic" : "Hok.jpg",
+    "message" : "หล่อ ๆ แบบนี้",
+    "day" : "Wednesday"
 }
 
 /* 17 */
 {
     "_id" : ObjectId("577e7bb56d0a227f2293344f"),
-    "name" : "Bird"
+    "name" : "Bird",
+    "pic" : "Bird.jpg",
+    "message" : "หุ่นดี ๆ แบบนี้...",
+    "day" : "Thursday"
 }
 
 /* 18 */
 {
     "_id" : ObjectId("577e7bb56d0a227f22933450"),
-    "name" : "Ging"
+    "name" : "Ging",
+    "pic" : "Ging.jpg",
+    "message" : "สวย ๆ แบบนี้",
+    "day" : "Friday"
 }
 
 /* 19 */
 {
     "_id" : ObjectId("577e7bb56d0a227f22933451"),
-    "name" : "Ching"
+    "name" : "Ching",
+    "pic" : "Ching.jpg",
+    "message" : "เครื่องมือมีเยอะ แบบนี้ ไปช่วยเวรนี้ล่ะกัน",
+    "day" : "Monday"
 }

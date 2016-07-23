@@ -19,9 +19,6 @@ func main() {
 	flag.Parse()
 
 	router := mux.NewRouter()
-	//router.HandleFunc("/member/random/{id}", member.Handler.Random).Methods("GET")
-	//router.HandleFunc("/member/{id}", member.Handler.GetDataByID).Methods("GET")
-	//router.HandleFunc("/", member.Handler.Result).Methods("GET")
 
 	memberService := memberimp.MemberService{}
 	memberService.State = *state
