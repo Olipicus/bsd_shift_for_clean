@@ -6,9 +6,12 @@ app.controller('AssignController', ['$scope', '$state', '$stateParams', '$timeou
   var client = new MemberServiceClient(protocol);
 
   $scope.checkState = function(){
-    $scope.member = client.getMember($stateParams.id);
-    console.log(JSON.stringify($scope.member));
-
+    try{
+      $scope.member = client.getMember($stateParams.id);
+    }
+    catch(e){
+      $scope.message = "เจ้าเป็นใครอ่ะ ข้าไม่รู้จัก";
+    }
   };
 
   $scope.assignDay = function(){
