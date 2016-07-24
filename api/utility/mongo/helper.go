@@ -22,7 +22,7 @@ func (h *Helper) Init(mongoAddress string, databaseName string) {
 		log.Fatal(err)
 	}
 	h.session = session
-	log.Println("Connect MongoDB OK!")
+	//log.Println("Connect MongoDB OK!")
 
 	// Optional. Switch the session to a monotonic behavior.
 	h.session.SetMode(mgo.Monotonic, true)

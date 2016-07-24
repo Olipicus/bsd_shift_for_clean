@@ -12,12 +12,21 @@ import (
 	"code.olipicus.com/bsd_shift_for_clean/api/member/gen-go/member"
 	"code.olipicus.com/bsd_shift_for_clean/api/member/memberimp"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/websocket"
 )
+
+var connections map[*websocket.Conn]bool
+var upgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+	CheckOrigin:     func(r *http.Request) bool { return true },
+}
 
 func main() {
 	state := flag.String("state", "develop", "startup message")
 	flag.Parse()
 
+	connections = make(map[*websocket.Conn]bool)
 	router := mux.NewRouter()
 
 	memberService := memberimp.MemberService{}
@@ -28,10 +37,46 @@ func main() {
 	//server := thrift.NewTSimpleServer4(processor, transport, transportFactory, protocolFactory)
 	handler := NewThriftHandlerFunc(processor, protocolFactory, protocolFactory)
 	router.HandleFunc("/api", handler)
+	router.HandleFunc("/ws", wsHandler)
 
 	log.Println("Server Start ...")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
+
+}
+
+func sendAll(msg []byte) {
+	for conn := range connections {
+		if err := conn.WriteMessage(websocket.TextMessage, msg); err != nil {
+			delete(connections, conn)
+			conn.Close()
+		}
+	}
+}
+
+func wsHandler(w http.ResponseWriter, r *http.Request) {
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if _, ok := err.(websocket.HandshakeError); ok {
+		http.Error(w, "Not a websocket handshake", 400)
+		return
+	} else if err != nil {
+		log.Println(err)
+		return
+	}
+	log.Println("Succesfully upgraded connection")
+	connections[conn] = true
+
+	for {
+		// Blocks until a message is read
+		_, msg, err := conn.ReadMessage()
+		if err != nil {
+			delete(connections, conn)
+			conn.Close()
+			return
+		}
+		log.Println(string(msg))
+		sendAll(msg)
+	}
 
 }
 
@@ -40,7 +85,7 @@ func NewThriftHandlerFunc(processor thrift.TProcessor,
 	inPfactory, outPfactory thrift.TProtocolFactory) func(w http.ResponseWriter, r *http.Request) {
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Printf("%v", r.Body)
+		//fmt.Printf("%v", r.Body)
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
 

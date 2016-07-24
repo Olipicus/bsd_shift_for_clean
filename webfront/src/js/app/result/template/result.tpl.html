@@ -2,9 +2,9 @@
   <div class="content">Result</div>
 </h2>
 
-<div class="doubling stackable five column ui grid container"
-  ng-controller="ResultController as result"
-  ng-init="getResult()">
+<div ng-controller="ResultController as result"
+     ng-init="getResult()">
+<div class="doubling stackable five column ui grid container">
   <div class="column" ng-repeat="day in result">
     <h4 class="ui top attached segment header center aligned" ng-class="day.color">
       {{day.day}}
@@ -13,7 +13,7 @@
       <div class="ui divided items">
       <div ng-repeat="member in day.members">
         <div class="ui tiny circular image middle aligned"  style="padding:4px; width:100px;">
-          <img ng-src="{{'./images/member/' + member.pic}}"">
+          <img ng-src="{{'./images/member/' + member.pic}}">
         </div>
         <span>
           {{member.name}}
@@ -22,4 +22,12 @@
       </div>
     </div>
   </div>
+</div>
+<h2 class="ui center aligned block header" ng-show="waitList">
+  <div class="ui horizontal list" >
+    <div class="ui tiny circular image middle aligned"  style="padding:4px; width:80px;" ng-repeat="member in waitList">
+      <img ng-src="{{'./images/member/' + member.pic}}">
+    </div>
+  </div>
+</h2>
 </div>

@@ -18,7 +18,8 @@ gulp.task('build', function(){
   gulp.src(['bower_components/angular/angular.min.js',
             'bower_components/jquery/dist/jquery.min.js',
             'bower_components/semantic/dist/semantic.min.js',
-            'bower_components/angular-ui-router/release/angular-ui-router.min.js'])
+            'bower_components/angular-ui-router/release/angular-ui-router.min.js',
+            'bower_components/angular-websocket/dist/angular-websocket.min.js'])
       .pipe(gulp.dest('./build/js/'));
 
   gulp.src(['bower_components/semantic/dist/semantic.min.css'])
@@ -27,6 +28,7 @@ gulp.task('build', function(){
   var fileOrder = [
     './build/js/angular.min.js',
     './build/js/angular-ui-router.min.js',
+    './build/js/angular-websocket.min.js',
     './build/**/*.js',
     './build/**/*.css'
   ];
@@ -45,7 +47,8 @@ gulp.task('build:dev', function(){
   gulp.src(['bower_components/angular/angular.js',
             'bower_components/jquery/dist/jquery.js',
             'bower_components/semantic/dist/semantic.js',
-            'bower_components/angular-ui-router/release/angular-ui-router.js'])
+            'bower_components/angular-ui-router/release/angular-ui-router.js',
+            'bower_components/angular-websocket/dist/angular-websocket.js'])
       .pipe(gulp.dest('./src/js/'));
 
   gulp.src(['bower_components/semantic/dist/semantic.css'])
@@ -54,6 +57,7 @@ gulp.task('build:dev', function(){
   var fileOrder = [
     './src/js/angular.js',
     './src/js/angular-ui-router.js',
+    './src/js/angular-websocket.js',
     './src/**/*.js',
     './src/**/*.css'
   ];

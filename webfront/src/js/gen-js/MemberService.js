@@ -454,6 +454,110 @@ MemberService_getResultByDay_result.prototype.write = function(output) {
   return;
 };
 
+MemberService_getNotAssign_args = function(args) {
+};
+MemberService_getNotAssign_args.prototype = {};
+MemberService_getNotAssign_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    input.skip(ftype);
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+MemberService_getNotAssign_args.prototype.write = function(output) {
+  output.writeStructBegin('MemberService_getNotAssign_args');
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+MemberService_getNotAssign_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = Thrift.copyList(args.success, [Member]);
+    }
+  }
+};
+MemberService_getNotAssign_result.prototype = {};
+MemberService_getNotAssign_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.LIST) {
+        var _size24 = 0;
+        var _rtmp328;
+        this.success = [];
+        var _etype27 = 0;
+        _rtmp328 = input.readListBegin();
+        _etype27 = _rtmp328.etype;
+        _size24 = _rtmp328.size;
+        for (var _i29 = 0; _i29 < _size24; ++_i29)
+        {
+          var elem30 = null;
+          elem30 = new Member();
+          elem30.read(input);
+          this.success.push(elem30);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+MemberService_getNotAssign_result.prototype.write = function(output) {
+  output.writeStructBegin('MemberService_getNotAssign_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.LIST, 0);
+    output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
+    for (var iter31 in this.success)
+    {
+      if (this.success.hasOwnProperty(iter31))
+      {
+        iter31 = this.success[iter31];
+        iter31.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 MemberServiceClient = function(input, output) {
     this.input = input;
     this.output = (!output) ? input : output;
@@ -618,4 +722,43 @@ MemberServiceClient.prototype.recv_getResultByDay = function() {
     return result.success;
   }
   throw 'getResultByDay failed: unknown result';
+};
+MemberServiceClient.prototype.getNotAssign = function(callback) {
+  if (callback === undefined) {
+    this.send_getNotAssign();
+    return this.recv_getNotAssign();
+  } else {
+    var postData = this.send_getNotAssign(true);
+    return this.output.getTransport()
+      .jqRequest(this, postData, arguments, this.recv_getNotAssign);
+  }
+};
+
+MemberServiceClient.prototype.send_getNotAssign = function(callback) {
+  this.output.writeMessageBegin('getNotAssign', Thrift.MessageType.CALL, this.seqid);
+  var args = new MemberService_getNotAssign_args();
+  args.write(this.output);
+  this.output.writeMessageEnd();
+  return this.output.getTransport().flush(callback);
+};
+
+MemberServiceClient.prototype.recv_getNotAssign = function() {
+  var ret = this.input.readMessageBegin();
+  var fname = ret.fname;
+  var mtype = ret.mtype;
+  var rseqid = ret.rseqid;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new MemberService_getNotAssign_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  if (null !== result.success) {
+    return result.success;
+  }
+  throw 'getNotAssign failed: unknown result';
 };

@@ -3,7 +3,6 @@ package memberimp
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"math"
 	"math/rand"
 	"os"
@@ -62,6 +61,17 @@ func (srv MemberService) GetResultByDay(day string) (result *member.ResultDay, e
 	return
 }
 
+//GetNotAssign : implement
+func (srv MemberService) GetNotAssign() (listMember []*member.Member, err error) {
+	mgh := srv.getMongoHelper()
+	defer mgh.Close()
+
+	resultCollection := mgh.GetCollecitonObj("member")
+	err = resultCollection.Find(bson.M{"day": bson.M{"$exists": false}}).All(&listMember)
+
+	return
+}
+
 //AssignDay : Implement
 func (srv MemberService) AssignDay(id string) (listMember []*member.Member, err error) {
 	mgh := srv.getMongoHelper()
@@ -70,7 +80,6 @@ func (srv MemberService) AssignDay(id string) (listMember []*member.Member, err 
 	var objMember member.Member
 
 	err = mgh.GetOneDataToObj("member", id, &objMember)
-	log.Print(id)
 
 	if err == mgo.ErrNotFound {
 		return

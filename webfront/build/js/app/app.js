@@ -1,4 +1,4 @@
-var app = angular.module('BSDShiftApp',['ui.router']);
+var app = angular.module('BSDShiftApp',['ui.router','ngWebSocket']);
 
 app.config(function($stateProvider, $urlRouterProvider){
   $urlRouterProvider.otherwise("/");
@@ -14,11 +14,12 @@ app.config(function($stateProvider, $urlRouterProvider){
     })
     .state('resultByDay', {
       url : '/result/:day',
-      controller : 'ResultController',
+      controller : 'ResultByDayController',
       templateUrl : '/js/app/result/template/result_day.tpl.html'
     })
 });
 
 app.constant("AppConfig", {
-    "api_url" : "http://bsd.olipicus.com:8080/api"
+    "api_url" : "http://bsd.olipicus.com:8080/api",
+    "ws_url" : "ws://bsd.olipicus.com:8080/ws"
 });

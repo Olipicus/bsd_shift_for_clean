@@ -1,9 +1,13 @@
 var app = angular.module('BSDShiftApp');
 
-app.controller('AssignController', ['$scope', '$state', '$stateParams', '$timeout', 'AppConfig', function($scope, $state, $stateParams, $timeout, appConfig){
+app.controller('AssignController', ['$scope', '$state', '$stateParams', '$timeout', '$websocket', 'AppConfig', function($scope, $state, $stateParams, $timeout, $websocket, appConfig){
   var transport = new Thrift.Transport(appConfig.api_url);
   var protocol  = new Thrift.Protocol(transport);
   var client = new MemberServiceClient(protocol);
+
+  var ws = $websocket(appConfig.ws_url);
+
+
 
   $scope.checkState = function(){
     try{
@@ -24,7 +28,7 @@ app.controller('AssignController', ['$scope', '$state', '$stateParams', '$timeou
       .then($timeout(function(){ $scope.message = "ให้ไปอยู่ไหนดีล่ะ"; }, 2000))
       .then($timeout(function(){ $scope.message = $scope.member.message; }, 3000))
       .then($timeout(function(){ $scope.message = "อ้าา รู้แล้ว"; }, 4000))
-      .then($timeout(function(){ $scope.result = client.assignDay($stateParams.id); $state.go('resultByDay',{"day" : $scope.result[0].day}); }, 5000));
+      .then($timeout(function(){ $scope.result = client.assignDay($stateParams.id); ws.send("update"); $state.go('resultByDay',{"day" : $scope.result[0].day}); }, 5000));
     }
   };
 }]);

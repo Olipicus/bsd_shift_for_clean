@@ -24,6 +24,7 @@ func Usage() {
 	fmt.Fprintln(os.Stderr, "   getResults()")
 	fmt.Fprintln(os.Stderr, "  Member getMember(string id)")
 	fmt.Fprintln(os.Stderr, "  ResultDay getResultByDay(string day)")
+	fmt.Fprintln(os.Stderr, "   getNotAssign()")
 	fmt.Fprintln(os.Stderr)
 	os.Exit(0)
 }
@@ -154,6 +155,14 @@ func main() {
 		argvalue0 := flag.Arg(1)
 		value0 := argvalue0
 		fmt.Print(client.GetResultByDay(value0))
+		fmt.Print("\n")
+		break
+	case "getNotAssign":
+		if flag.NArg()-1 != 0 {
+			fmt.Fprintln(os.Stderr, "GetNotAssign requires 0 args")
+			flag.Usage()
+		}
+		fmt.Print(client.GetNotAssign())
 		fmt.Print("\n")
 		break
 	case "":

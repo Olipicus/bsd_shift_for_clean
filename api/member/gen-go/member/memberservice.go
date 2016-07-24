@@ -25,6 +25,7 @@ type MemberService interface {
 	// Parameters:
 	//  - Day
 	GetResultByDay(day string) (r *ResultDay, err error)
+	GetNotAssign() (r []*Member, err error)
 }
 
 type MemberServiceClient struct {
@@ -357,6 +358,79 @@ func (p *MemberServiceClient) recvGetResultByDay() (value *ResultDay, err error)
 	return
 }
 
+func (p *MemberServiceClient) GetNotAssign() (r []*Member, err error) {
+	if err = p.sendGetNotAssign(); err != nil {
+		return
+	}
+	return p.recvGetNotAssign()
+}
+
+func (p *MemberServiceClient) sendGetNotAssign() (err error) {
+	oprot := p.OutputProtocol
+	if oprot == nil {
+		oprot = p.ProtocolFactory.GetProtocol(p.Transport)
+		p.OutputProtocol = oprot
+	}
+	p.SeqId++
+	if err = oprot.WriteMessageBegin("getNotAssign", thrift.CALL, p.SeqId); err != nil {
+		return
+	}
+	args := MemberServiceGetNotAssignArgs{}
+	if err = args.Write(oprot); err != nil {
+		return
+	}
+	if err = oprot.WriteMessageEnd(); err != nil {
+		return
+	}
+	return oprot.Flush()
+}
+
+func (p *MemberServiceClient) recvGetNotAssign() (value []*Member, err error) {
+	iprot := p.InputProtocol
+	if iprot == nil {
+		iprot = p.ProtocolFactory.GetProtocol(p.Transport)
+		p.InputProtocol = iprot
+	}
+	method, mTypeId, seqId, err := iprot.ReadMessageBegin()
+	if err != nil {
+		return
+	}
+	if method != "getNotAssign" {
+		err = thrift.NewTApplicationException(thrift.WRONG_METHOD_NAME, "getNotAssign failed: wrong method name")
+		return
+	}
+	if p.SeqId != seqId {
+		err = thrift.NewTApplicationException(thrift.BAD_SEQUENCE_ID, "getNotAssign failed: out of sequence response")
+		return
+	}
+	if mTypeId == thrift.EXCEPTION {
+		error9 := thrift.NewTApplicationException(thrift.UNKNOWN_APPLICATION_EXCEPTION, "Unknown Exception")
+		var error10 error
+		error10, err = error9.Read(iprot)
+		if err != nil {
+			return
+		}
+		if err = iprot.ReadMessageEnd(); err != nil {
+			return
+		}
+		err = error10
+		return
+	}
+	if mTypeId != thrift.REPLY {
+		err = thrift.NewTApplicationException(thrift.INVALID_MESSAGE_TYPE_EXCEPTION, "getNotAssign failed: invalid message type")
+		return
+	}
+	result := MemberServiceGetNotAssignResult{}
+	if err = result.Read(iprot); err != nil {
+		return
+	}
+	if err = iprot.ReadMessageEnd(); err != nil {
+		return
+	}
+	value = result.GetSuccess()
+	return
+}
+
 type MemberServiceProcessor struct {
 	processorMap map[string]thrift.TProcessorFunction
 	handler      MemberService
@@ -377,12 +451,13 @@ func (p *MemberServiceProcessor) ProcessorMap() map[string]thrift.TProcessorFunc
 
 func NewMemberServiceProcessor(handler MemberService) *MemberServiceProcessor {
 
-	self9 := &MemberServiceProcessor{handler: handler, processorMap: make(map[string]thrift.TProcessorFunction)}
-	self9.processorMap["assignDay"] = &memberServiceProcessorAssignDay{handler: handler}
-	self9.processorMap["getResults"] = &memberServiceProcessorGetResults{handler: handler}
-	self9.processorMap["getMember"] = &memberServiceProcessorGetMember{handler: handler}
-	self9.processorMap["getResultByDay"] = &memberServiceProcessorGetResultByDay{handler: handler}
-	return self9
+	self11 := &MemberServiceProcessor{handler: handler, processorMap: make(map[string]thrift.TProcessorFunction)}
+	self11.processorMap["assignDay"] = &memberServiceProcessorAssignDay{handler: handler}
+	self11.processorMap["getResults"] = &memberServiceProcessorGetResults{handler: handler}
+	self11.processorMap["getMember"] = &memberServiceProcessorGetMember{handler: handler}
+	self11.processorMap["getResultByDay"] = &memberServiceProcessorGetResultByDay{handler: handler}
+	self11.processorMap["getNotAssign"] = &memberServiceProcessorGetNotAssign{handler: handler}
+	return self11
 }
 
 func (p *MemberServiceProcessor) Process(iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
@@ -395,12 +470,12 @@ func (p *MemberServiceProcessor) Process(iprot, oprot thrift.TProtocol) (success
 	}
 	iprot.Skip(thrift.STRUCT)
 	iprot.ReadMessageEnd()
-	x10 := thrift.NewTApplicationException(thrift.UNKNOWN_METHOD, "Unknown function "+name)
+	x12 := thrift.NewTApplicationException(thrift.UNKNOWN_METHOD, "Unknown function "+name)
 	oprot.WriteMessageBegin(name, thrift.EXCEPTION, seqId)
-	x10.Write(oprot)
+	x12.Write(oprot)
 	oprot.WriteMessageEnd()
 	oprot.Flush()
-	return false, x10
+	return false, x12
 
 }
 
@@ -596,6 +671,54 @@ func (p *memberServiceProcessorGetResultByDay) Process(seqId int32, iprot, oprot
 	return true, err
 }
 
+type memberServiceProcessorGetNotAssign struct {
+	handler MemberService
+}
+
+func (p *memberServiceProcessorGetNotAssign) Process(seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := MemberServiceGetNotAssignArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("getNotAssign", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush()
+		return false, err
+	}
+
+	iprot.ReadMessageEnd()
+	result := MemberServiceGetNotAssignResult{}
+	var retval []*Member
+	var err2 error
+	if retval, err2 = p.handler.GetNotAssign(); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing getNotAssign: "+err2.Error())
+		oprot.WriteMessageBegin("getNotAssign", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush()
+		return true, err2
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("getNotAssign", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
+}
+
 // HELPER FUNCTIONS AND STRUCTURES
 
 // Attributes:
@@ -749,11 +872,11 @@ func (p *MemberServiceAssignDayResult) readField0(iprot thrift.TProtocol) error 
 	tSlice := make([]*Member, 0, size)
 	p.Success = tSlice
 	for i := 0; i < size; i++ {
-		_elem11 := &Member{}
-		if err := _elem11.Read(iprot); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", _elem11), err)
+		_elem13 := &Member{}
+		if err := _elem13.Read(iprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", _elem13), err)
 		}
-		p.Success = append(p.Success, _elem11)
+		p.Success = append(p.Success, _elem13)
 	}
 	if err := iprot.ReadListEnd(); err != nil {
 		return thrift.PrependError("error reading list end: ", err)
@@ -920,11 +1043,11 @@ func (p *MemberServiceGetResultsResult) readField0(iprot thrift.TProtocol) error
 	tSlice := make([]*ResultDay, 0, size)
 	p.Success = tSlice
 	for i := 0; i < size; i++ {
-		_elem12 := &ResultDay{}
-		if err := _elem12.Read(iprot); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", _elem12), err)
+		_elem14 := &ResultDay{}
+		if err := _elem14.Read(iprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", _elem14), err)
 		}
-		p.Success = append(p.Success, _elem12)
+		p.Success = append(p.Success, _elem14)
 	}
 	if err := iprot.ReadListEnd(); err != nil {
 		return thrift.PrependError("error reading list end: ", err)
@@ -1360,4 +1483,175 @@ func (p *MemberServiceGetResultByDayResult) String() string {
 		return "<nil>"
 	}
 	return fmt.Sprintf("MemberServiceGetResultByDayResult(%+v)", *p)
+}
+
+type MemberServiceGetNotAssignArgs struct {
+}
+
+func NewMemberServiceGetNotAssignArgs() *MemberServiceGetNotAssignArgs {
+	return &MemberServiceGetNotAssignArgs{}
+}
+
+func (p *MemberServiceGetNotAssignArgs) Read(iprot thrift.TProtocol) error {
+	if _, err := iprot.ReadStructBegin(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
+		if err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		if err := iprot.Skip(fieldTypeId); err != nil {
+			return err
+		}
+		if err := iprot.ReadFieldEnd(); err != nil {
+			return err
+		}
+	}
+	if err := iprot.ReadStructEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	return nil
+}
+
+func (p *MemberServiceGetNotAssignArgs) Write(oprot thrift.TProtocol) error {
+	if err := oprot.WriteStructBegin("getNotAssign_args"); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if err := oprot.WriteFieldStop(); err != nil {
+		return thrift.PrependError("write field stop error: ", err)
+	}
+	if err := oprot.WriteStructEnd(); err != nil {
+		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
+}
+
+func (p *MemberServiceGetNotAssignArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("MemberServiceGetNotAssignArgs(%+v)", *p)
+}
+
+// Attributes:
+//  - Success
+type MemberServiceGetNotAssignResult struct {
+	Success []*Member `thrift:"success,0" json:"success,omitempty"`
+}
+
+func NewMemberServiceGetNotAssignResult() *MemberServiceGetNotAssignResult {
+	return &MemberServiceGetNotAssignResult{}
+}
+
+var MemberServiceGetNotAssignResult_Success_DEFAULT []*Member
+
+func (p *MemberServiceGetNotAssignResult) GetSuccess() []*Member {
+	return p.Success
+}
+func (p *MemberServiceGetNotAssignResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *MemberServiceGetNotAssignResult) Read(iprot thrift.TProtocol) error {
+	if _, err := iprot.ReadStructBegin(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
+		if err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 0:
+			if err := p.readField0(iprot); err != nil {
+				return err
+			}
+		default:
+			if err := iprot.Skip(fieldTypeId); err != nil {
+				return err
+			}
+		}
+		if err := iprot.ReadFieldEnd(); err != nil {
+			return err
+		}
+	}
+	if err := iprot.ReadStructEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	return nil
+}
+
+func (p *MemberServiceGetNotAssignResult) readField0(iprot thrift.TProtocol) error {
+	_, size, err := iprot.ReadListBegin()
+	if err != nil {
+		return thrift.PrependError("error reading list begin: ", err)
+	}
+	tSlice := make([]*Member, 0, size)
+	p.Success = tSlice
+	for i := 0; i < size; i++ {
+		_elem15 := &Member{}
+		if err := _elem15.Read(iprot); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", _elem15), err)
+		}
+		p.Success = append(p.Success, _elem15)
+	}
+	if err := iprot.ReadListEnd(); err != nil {
+		return thrift.PrependError("error reading list end: ", err)
+	}
+	return nil
+}
+
+func (p *MemberServiceGetNotAssignResult) Write(oprot thrift.TProtocol) error {
+	if err := oprot.WriteStructBegin("getNotAssign_result"); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if err := p.writeField0(oprot); err != nil {
+		return err
+	}
+	if err := oprot.WriteFieldStop(); err != nil {
+		return thrift.PrependError("write field stop error: ", err)
+	}
+	if err := oprot.WriteStructEnd(); err != nil {
+		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
+}
+
+func (p *MemberServiceGetNotAssignResult) writeField0(oprot thrift.TProtocol) (err error) {
+	if p.IsSetSuccess() {
+		if err := oprot.WriteFieldBegin("success", thrift.LIST, 0); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err)
+		}
+		if err := oprot.WriteListBegin(thrift.STRUCT, len(p.Success)); err != nil {
+			return thrift.PrependError("error writing list begin: ", err)
+		}
+		for _, v := range p.Success {
+			if err := v.Write(oprot); err != nil {
+				return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", v), err)
+			}
+		}
+		if err := oprot.WriteListEnd(); err != nil {
+			return thrift.PrependError("error writing list end: ", err)
+		}
+		if err := oprot.WriteFieldEnd(); err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err)
+		}
+	}
+	return err
+}
+
+func (p *MemberServiceGetNotAssignResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("MemberServiceGetNotAssignResult(%+v)", *p)
 }

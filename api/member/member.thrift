@@ -19,4 +19,5 @@ service MemberService {
   list<ResultDay> getResults(),
   Member getMember(1:string id),
   ResultDay getResultByDay(1:string day),
+  list<Member> getNotAssign(),
 }
