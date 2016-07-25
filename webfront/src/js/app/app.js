@@ -20,6 +20,6 @@ app.config(function($stateProvider, $urlRouterProvider){
 });
 
 app.constant("AppConfig", {
-    "api_url" : "http://127.0.0.1:8080/api",
-    "ws_url" : "ws://127.0.0.1:8080/ws"
+    "api_url" : "http://127.0.0.1/api",
+    "ws_url" : "ws://127.0.0.1/ws"
 });

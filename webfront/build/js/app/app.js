@@ -20,6 +20,6 @@ app.config(function($stateProvider, $urlRouterProvider){
 });
 
 app.constant("AppConfig", {
-    "api_url" : "http://bsd.olipicus.com:8080/api",
-    "ws_url" : "ws://bsd.olipicus.com:8080/ws"
+    "api_url" : "http://bsd.olipicus.com/api",
+    "ws_url" : "ws://bsd.olipicus.com/ws"
 });
