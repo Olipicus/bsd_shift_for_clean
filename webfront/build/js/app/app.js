@@ -5,21 +5,21 @@ app.config(function($stateProvider, $urlRouterProvider){
   $stateProvider
     .state('result', {
       url : '/result',
-      templateUrl : '/js/app/result/template/result.tpl.html'
+      templateUrl : './js/app/result/template/result.tpl.html'
     })
     .state('assign', {
       url : '/assign/:id',
       controller : 'AssignController',
-      templateUrl : '/js/app/assign/template/assign.tpl.html'
+      templateUrl : './js/app/assign/template/assign.tpl.html'
     })
     .state('resultByDay', {
       url : '/result/:day',
       controller : 'ResultByDayController',
-      templateUrl : '/js/app/result/template/result_day.tpl.html'
+      templateUrl : './js/app/result/template/result_day.tpl.html'
     })
 });
 
 app.constant("AppConfig", {
-    "api_url" : "http://127.0.0.1:8802/api",
-    "ws_url" : "ws://127.0.0.1:8802/ws"
+    "api_url" : "http://www.olipicus.com/bsd/api",
+    "ws_url" : "ws://www.olipicus.com:8802/ws"
 });
