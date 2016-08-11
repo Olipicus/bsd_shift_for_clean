@@ -82,7 +82,7 @@ func TestCalMaxMemberInDay(t *testing.T) {
 }
 
 func TestGetResultByDay(t *testing.T) {
-	var memberService MemberService
+	memberService := MemberService{State: "develop"}
 	if _, err := memberService.GetResultByDay("Monday"); err != nil {
 		t.Errorf("Got Error ")
 	}

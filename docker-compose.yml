@@ -4,12 +4,14 @@ db:
   volumes:
     - ./mongodata:/data/db
   ports:
-    - "27017:27017"
+    - "8803:27017"
 
 api:
   build: ./api
   ports:
-    - "8080:8080"
+    - "8802:8802"
+  volumes:
+    - ./api/config.json:/go/src/code.olipicus.com/bsd_shift_for_clean/api/config.json
   links:
     - db
 
@@ -19,14 +21,14 @@ webfront:
     - ./webfront/nginx.conf:/etc/nginx/nginx.conf:ro
     - ./webfront/build:/www
   ports:
-    - "9000:9000"
+    - "8801:8801"
 
 proxy:
   image: nginx:alpine
   volumes:
     - ./proxy/nginx.conf:/etc/nginx/nginx.conf:ro
   ports:
-    - "80:80"
+    - "8800:8800"
   links:
     - webfront
     - api
