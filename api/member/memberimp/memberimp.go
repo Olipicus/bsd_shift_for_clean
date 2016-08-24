@@ -167,11 +167,23 @@ func getCount(id string, day string, mgh *mongo.Helper) (int, int, int) {
 }
 
 func getDayAvailable(id string, mgh *mongo.Helper) string {
+
+	valiant := map[string]bool{
+		"577e71c66d0a327f2293343d": true,
+		"577e71d16d0a227f2293345e": true,
+		"577e81da6d0a227f2293343f": true,
+		"577e72e86d0a227f22933440": true,
+	}
+
+	if valiant[id] {
+		return "Monday"
+	}
+
 	day := randomDay()
 	allMember, memberHasDay, memberInDay := getCount(id, day, mgh)
 	maxMemberInDay := calMaxMemberInDay(allMember, memberHasDay, len(dayList))
 
-	if memberInDay < maxMemberInDay {
+	if memberInDay < maxMemberInDay && day != "Monday" {
 		return day
 	}
 	return getDayAvailable(id, mgh)

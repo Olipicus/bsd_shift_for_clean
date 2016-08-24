@@ -1,135 +1,133 @@
 {
+    "_id" : ObjectId("577e71c66d0a327f2293343d"),
     "name" : "Tong",
     "pic" : "Tong.jpg",
-    "message" : "ชั่ว ๆ แบบนี้",
-    "day" : "Friday"
+    "message" : "ชั่ว ๆ แบบนี้"
 }
 
 {
+
+    "_id" : ObjectId("577e71d16d0a227f2293345e"),
     "name" : "Notkung",
     "pic" : "Notkung.jpg",
-    "message" : "เคย อยู่วันจันทร์ อยู่แล้วนี่",
-    "day" : "Friday"
+    "message" : "เคย อยู่วันจันทร์ อยู่แล้วนี่"
 }
 
 {
+    "_id" : ObjectId("577e81da6d0a227f2293343f"),
     "name" : "Chai",
     "pic" : "Chai.jpg",
-    "message" : "อยากอยู่เวรใหม่สินะ",
-    "day" : "Monday"
+    "message" : "อยากอยู่เวรใหม่สินะ"
 }
 
-
 {
+    "_id" : ObjectId("577e72e86d0a227f22933440"),
     "name" : "Kit",
     "pic" : "Kit.jpg",
-    "message" : "อยากอยู่เวรเดิมเหรอ",
-    "day" : "Thursday"
+    "message" : "อยากอยู่เวรเดิมเหรอ"
 }
 
-
 {
+    "_id" : ObjectId("577e71f16d0a327f22933441"),
     "name" : "Best",
     "pic" : "Best.jpg",
-    "message" : "อยู่ที่นี่ไปก่อนนะ...",
-    "day" : "Tuesday"
+    "message" : "อยู่ที่นี่ไปก่อนนะ..."
 }
 
-
 {
+    "_id" : ObjectId("577e7b1e6d0a227f22033444"),
     "name" : "Elle",
     "pic" : "Elle.jpg",
-    "message" : "เป็นผู้หญิงสินะ งั้น...",
-    "day" : "Wednesday"
+    "message" : "เป็นผู้หญิงสินะ งั้น..."
 }
 
 {
+    "_id" : ObjectId("577e7b336d0a527f22933445"),
     "name" : "Pol",
     "pic" : "Pol.jpg",
-    "message" : "ไม่กินเผ็ด สินะ งั้น",
-    "day" : "Wednesday"
+    "message" : "ไม่กินเผ็ด สินะ งั้น"
 }
 
 {
+    "_id" : ObjectId("577e7b3d6d0a227f22933546"),
     "name" : "Gap",
     "pic" : "Gap.jpg",
-    "message" : "อยากอยู่วันจันทร์สินะ",
-    "day" : "Tuesday"
+    "message" : "อยากอยู่วันจันทร์สินะ"
 }
 
 {
+    "_id" : ObjectId("577e7b486d0a227f22933847"),
     "name" : "Tung",
     "pic" : "Tung.jpg",
-    "message" : "มาทำงานเช้า อย่างนี้",
-    "day" : "Monday"
+    "message" : "มาทำงานเช้า อย่างนี้"
 }
 
 {
+    "_id" : ObjectId("577e7b626d0a227f02933448"),
     "name" : "Man",
     "pic" : "Man.jpg",
-    "message" : "Man Man อย่างนี้...",
-    "day" : "Thursday"
+    "message" : "Man Man อย่างนี้..."
 }
 
 {
+    "_id" : ObjectId("577e7b626d0a227f22933489"),
     "name" : "Arm",
     "pic" : "Arm.jpg",
-    "message" : "เข้าวัดบ่อยสินะ อืมม...",
-    "day" : "Monday"
+    "message" : "เข้าวัดบ่อยสินะ อืมม..."
 }
 
 {
+    "_id" : ObjectId("577e7bb56d0a227f2193344a"),
     "name" : "Tum",
     "pic" : "Tum.jpg",
-    "message" : "วิ่ง บ่อย ๆ อย่างนี้ ไปที่นี่แล้วกัน",
-    "day" : "Wednesday"
+    "message" : "วิ่ง บ่อย ๆ อย่างนี้ ไปที่นี่แล้วกัน"
 }
 
 {
+    "_id" : ObjectId("579e7bb56d0a227f2293344b"),
     "name" : "Boy",
     "pic" : "Boy.jpg",
-    "message" : "มาจาก อีสาน สินะ งั้นไปที่นี่ล่ะกัน",
-    "day" : "Tuesday"
+    "message" : "มาจาก อีสาน สินะ งั้นไปที่นี่ล่ะกัน"
 }
 
 {
+    "_id" : ObjectId("577e7bb56d0a227f2293344c"),
     "name" : "Jao",
     "pic" : "Jao.jpg",
-    "message" : "ทำอาหารเก่ง หวังว่าจะล้างเก่งด้วยนะ",
-    "day" : "Friday"
+    "message" : "ทำอาหารเก่ง หวังว่าจะล้างเก่งด้วยนะ"
 }
 
 {
+    "_id" : ObjectId("577e7bb56d0a257f2293344d"),
     "name" : "Nok",
     "pic" : "Nok.jpg",
-    "message" : "เก็บตังค์คนอื่น บ่อย ๆ แบบนี้",
-    "day" : "Thursday"
+    "message" : "เก็บตังค์คนอื่น บ่อย ๆ แบบนี้"
 }
 
 {
+    "_id" : ObjectId("577e7bb56d9a227f2293344e"),
     "name" : "Hok",
     "pic" : "Hok.jpg",
-    "message" : "หล่อ ๆ แบบนี้",
-    "day" : "Wednesday"
+    "message" : "หล่อ ๆ แบบนี้"
 }
 
 {
+    "_id" : ObjectId("577e7bb86d0a227f2293344f"),
     "name" : "Bird",
     "pic" : "Bird.jpg",
-    "message" : "หุ่นดี ๆ แบบนี้...",
-    "day" : "Thursday"
+    "message" : "หุ่นดี ๆ แบบนี้..."
 }
 
 {
+    "_id" : ObjectId("577e7bb56d0a227f22033450"),
     "name" : "Ging",
     "pic" : "Ging.jpg",
-    "message" : "สวย ๆ แบบนี้",
-    "day" : "Friday"
+    "message" : "สวย ๆ แบบนี้"
 }
 
 {
+    "_id" : ObjectId("577e7bb56d0a227f22943451"),
     "name" : "Ching",
     "pic" : "Ching.jpg",
-    "message" : "เครื่องมือมีเยอะ แบบนี้ ไปช่วยเวรนี้ล่ะกัน",
-    "day" : "Monday"
+    "message" : "เครื่องมือมีเยอะ แบบนี้ ไปช่วยเวรนี้ล่ะกัน"
 }
