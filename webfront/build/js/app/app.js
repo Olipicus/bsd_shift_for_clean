@@ -21,5 +21,5 @@ app.config(function($stateProvider, $urlRouterProvider){
 
 app.constant("AppConfig", {
     "api_url" : "https://www.olipicus.com/api",
-    "ws_url" : "ws://www.olipicus.com/ws"
+    "ws_url" : "wss://www.olipicus.com/ws"
 });
