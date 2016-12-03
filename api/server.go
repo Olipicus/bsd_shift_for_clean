@@ -10,7 +10,7 @@ import (
 
 	"git.apache.org/thrift.git/lib/go/thrift"
 
-	"code.olipicus.com/bsd_shift_for_clean/api/Line"
+	"code.olipicus.com/bsd_shift_for_clean/api/line"
 	"code.olipicus.com/bsd_shift_for_clean/api/member/gen-go/member"
 	"code.olipicus.com/bsd_shift_for_clean/api/member/memberimp"
 	"github.com/gorilla/mux"
