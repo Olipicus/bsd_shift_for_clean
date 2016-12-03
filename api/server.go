@@ -6,9 +6,11 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
 
 	"git.apache.org/thrift.git/lib/go/thrift"
 
+	"code.olipicus.com/bsd_shift_for_clean/api/Line"
 	"code.olipicus.com/bsd_shift_for_clean/api/member/gen-go/member"
 	"code.olipicus.com/bsd_shift_for_clean/api/member/memberimp"
 	"github.com/gorilla/mux"
@@ -36,8 +38,16 @@ func main() {
 	protocolFactory := thrift.NewTJSONProtocolFactory()
 	//server := thrift.NewTSimpleServer4(processor, transport, transportFactory, protocolFactory)
 	handler := NewThriftHandlerFunc(processor, protocolFactory, protocolFactory)
+
+	app, err := line.NewLineApp(os.Getenv("CHANNEL_SECRET"), os.Getenv("CHANNEL_TOKEN"))
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	router.HandleFunc("/api", handler)
 	router.HandleFunc("/ws", wsHandler)
+	router.HandleFunc("/linebot", app.CallbackHandler)
 
 	log.Println("Server Start ...")
 

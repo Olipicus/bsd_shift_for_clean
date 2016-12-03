@@ -9,5 +9,6 @@ RUN go get github.com/gorilla/mux
 RUN go get github.com/gorilla/websocket
 RUN go get gopkg.in/mgo.v2
 RUN go get git.apache.org/thrift.git/lib/go/thrift
+RUN go get github.com/line/line-bot-sdk-go/linebot
 RUN go build -o api .
 CMD ["./api","-state=production"]
