@@ -4,16 +4,19 @@ import (
 	"log"
 	"net/http"
 
+	"code.olipicus.com/bsd_shift_for_clean/api/member/gen-go/member"
+	"code.olipicus.com/bsd_shift_for_clean/api/member/memberimp"
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
 //LineApp :
 type LineApp struct {
-	bot *linebot.Client
+	bot           *linebot.Client
+	memberService *memberimp.MemberService
 }
 
 //NewLineApp : New LineApp
-func NewLineApp(channelSecret, channelToken string) (*LineApp, error) {
+func NewLineApp(channelSecret string, channelToken string, service *memberimp.MemberService) (*LineApp, error) {
 	bot, err := linebot.New(
 		channelSecret,
 		channelToken,
@@ -22,7 +25,8 @@ func NewLineApp(channelSecret, channelToken string) (*LineApp, error) {
 		return nil, err
 	}
 	return &LineApp{
-		bot: bot,
+		bot:           bot,
+		memberService: service,
 	}, nil
 }
 
@@ -47,6 +51,17 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 			switch message := event.Message.(type) {
 			case *linebot.TextMessage:
 				profile, err := app.bot.GetProfile(event.Source.UserID).Do()
+
+				if message.Text == "Hi" {
+					objMember := member.Member{
+						LineID: profile.UserID,
+						Name:   profile.DisplayName,
+						Pic:    profile.PictureURL,
+					}
+
+					app.memberService.AddMember(&objMember)
+				}
+
 				if err != nil {
 					app.replyText(event.ReplyToken, err.Error())
 				}

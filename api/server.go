@@ -39,7 +39,7 @@ func main() {
 	//server := thrift.NewTSimpleServer4(processor, transport, transportFactory, protocolFactory)
 	handler := NewThriftHandlerFunc(processor, protocolFactory, protocolFactory)
 
-	app, err := line.NewLineApp(os.Getenv("CHANNEL_SECRET"), os.Getenv("CHANNEL_TOKEN"))
+	app, err := line.NewLineApp(os.Getenv("CHANNEL_SECRET"), os.Getenv("CHANNEL_TOKEN"), &memberService)
 
 	if err != nil {
 		log.Fatal(err)

@@ -2,10 +2,11 @@ namespace go member
 
 struct Member {
   1: string _id,
-  2: string name,
-  3: string pic,
-  4: string message,
-  5: string day
+  2: string line_id
+  3: string name,
+  4: string pic,
+  5: string message,
+  6: string day
 }
 
 struct ResultDay {
@@ -20,4 +21,5 @@ service MemberService {
   Member getMember(1:string id),
   ResultDay getResultByDay(1:string day),
   list<Member> getNotAssign(),
+  void addMember(1:Member member),
 }

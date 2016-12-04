@@ -25,6 +25,7 @@ func Usage() {
 	fmt.Fprintln(os.Stderr, "  Member getMember(string id)")
 	fmt.Fprintln(os.Stderr, "  ResultDay getResultByDay(string day)")
 	fmt.Fprintln(os.Stderr, "   getNotAssign()")
+	fmt.Fprintln(os.Stderr, "  void addMember(Member member)")
 	fmt.Fprintln(os.Stderr)
 	os.Exit(0)
 }
@@ -163,6 +164,31 @@ func main() {
 			flag.Usage()
 		}
 		fmt.Print(client.GetNotAssign())
+		fmt.Print("\n")
+		break
+	case "addMember":
+		if flag.NArg()-1 != 1 {
+			fmt.Fprintln(os.Stderr, "AddMember requires 1 args")
+			flag.Usage()
+		}
+		arg21 := flag.Arg(1)
+		mbTrans22 := thrift.NewTMemoryBufferLen(len(arg21))
+		defer mbTrans22.Close()
+		_, err23 := mbTrans22.WriteString(arg21)
+		if err23 != nil {
+			Usage()
+			return
+		}
+		factory24 := thrift.NewTSimpleJSONProtocolFactory()
+		jsProt25 := factory24.GetProtocol(mbTrans22)
+		argvalue0 := member.NewMember()
+		err26 := argvalue0.Read(jsProt25)
+		if err26 != nil {
+			Usage()
+			return
+		}
+		value0 := argvalue0
+		fmt.Print(client.AddMember(value0))
 		fmt.Print("\n")
 		break
 	case "":

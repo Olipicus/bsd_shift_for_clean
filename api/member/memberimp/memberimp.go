@@ -130,6 +130,14 @@ func (srv MemberService) GetResults() (listResult []*member.ResultDay, err error
 	return
 }
 
+//NewMember Function
+func (srv MemberService) AddMember(objMember *member.Member) (err error) {
+	mgh := srv.getMongoHelper()
+	defer mgh.Close()
+
+	return mgh.InsertData("member", objMember)
+}
+
 //RandomDay Function
 func randomDay() string {
 	rand.Seed(time.Now().UnixNano())
