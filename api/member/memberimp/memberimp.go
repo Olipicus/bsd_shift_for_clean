@@ -235,7 +235,7 @@ func getDayAvailable(id string, mgh *mongo.Helper) string {
 	allMember, memberHasDay, memberInDay := getCount(id, day, mgh)
 	maxMemberInDay := calMaxMemberInDay(allMember, memberHasDay, len(dayList))
 
-	log.Printf("getDayAvailable : %v %v %v", allMember, memberHasDay, memberInDay)
+	log.Printf("getDayAvailable : %v %v %v %v", allMember, memberHasDay, memberInDay, maxMemberInDay)
 
 	if memberInDay < maxMemberInDay && day != "Monday" {
 		return day
