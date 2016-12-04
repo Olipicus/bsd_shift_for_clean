@@ -175,8 +175,7 @@ func (srv MemberService) GetIDByLineID(lineid string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
-	return result.ID.String(), nil
+	return result.ID.Hex(), nil
 }
 
 //RandomDay Function
