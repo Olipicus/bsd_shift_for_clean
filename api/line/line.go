@@ -88,6 +88,7 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 					strings.Contains(message.Text, "wed") ||
 					strings.Contains(message.Text, "thu") ||
 					strings.Contains(message.Text, "fri") {
+
 					memberObj, err := app.memberService.GetMemberByLineID(profile.UserID)
 					if err != nil {
 						log.Fatal(err)
@@ -111,7 +112,7 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 						memberText += member.Name + " "
 					}
 
-					if err = app.replyText(event.ReplyToken, "สมาชิกตอนนี้มีดังนี้ "+memberText); err != nil {
+					if _, err := app.bot.PushMessage(memberObj.LineID, linebot.NewTextMessage("สมาชิกตอนนี้มีดังนี้ "+memberText)).Do(); err != nil {
 						log.Fatal(err)
 					}
 
