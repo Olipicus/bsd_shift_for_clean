@@ -74,6 +74,8 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 						log.Fatal(err)
 					}
 
+					log.Println(memberObj.Get_id())
+
 					listMember, _ := app.memberService.AssignDay(memberObj.Get_id())
 
 					for _, member := range listMember {
