@@ -67,7 +67,7 @@ func (srv MemberService) GetNotAssign() (listMember []*member.Member, err error)
 	defer mgh.Close()
 
 	resultCollection := mgh.GetCollecitonObj("member")
-	err = resultCollection.Find(bson.M{"day": bson.M{"$exists": false}}).All(&listMember)
+	err = resultCollection.Find(bson.M{"$or": []bson.M{bson.M{"day": bson.M{"$exists": false}}, bson.M{"day": ""}}}).All(&listMember)
 
 	return
 }
