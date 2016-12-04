@@ -160,6 +160,25 @@ func (srv MemberService) GetMemberByLineID(lineid string) (objMember *member.Mem
 	return
 }
 
+//GetIDByLineID Function
+func (srv MemberService) GetIDByLineID(lineid string) (string, error) {
+	mgh := srv.getMongoHelper()
+	defer mgh.Close()
+
+	collection := mgh.GetCollecitonObj("member")
+
+	var result struct {
+		ID bson.ObjectId `bson:"_id"`
+	}
+
+	err := collection.Find(bson.M{"lineid": lineid}).Select(bson.M{"_id": 1}).All(&result)
+	if err != nil {
+		return "", err
+	}
+
+	return result.ID.String(), nil
+}
+
 //RandomDay Function
 func randomDay() string {
 	rand.Seed(time.Now().UnixNano())

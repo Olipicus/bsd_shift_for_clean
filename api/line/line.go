@@ -74,9 +74,8 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 						log.Fatal(err)
 					}
 
-					log.Println(memberObj.Get_id())
-
-					listMember, _ := app.memberService.AssignDay(memberObj.Get_id())
+					id, _ := app.memberService.GetIDByLineID(memberObj.LineID)
+					listMember, _ := app.memberService.AssignDay(id)
 
 					for _, member := range listMember {
 						if _, err := app.bot.PushMessage(member.LineID, linebot.NewTextMessage(memberObj.Name+" ได้เป็นสมาชิก วันเดียวกับคุณ")).Do(); err != nil {
