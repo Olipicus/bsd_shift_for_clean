@@ -211,7 +211,7 @@ func getCount(id string, day string, mgh *mongo.Helper) (int, int, int) {
 	mu.Lock()
 	memberCollection := mgh.GetCollecitonObj("member")
 	allMember, _ := memberCollection.Find(bson.M{}).Count()
-	memberHasDay, _ := memberCollection.Find(bson.M{"$or": []bson.M{bson.M{"day": bson.M{"$exists": false}}, bson.M{"day": ""}}}).Count()
+	memberHasDay, _ := memberCollection.Find(bson.M{"day": bson.M{"$exists": true, "$ne": ""}}).Count()
 	memberInDay, _ := memberCollection.Find(bson.M{"day": day}).Count()
 
 	defer mu.Unlock()
