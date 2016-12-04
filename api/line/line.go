@@ -64,28 +64,51 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 
 					app.memberService.AddMember(&objMember)
 
-					ws, err := websocket.Dial("wss://www.olipicus.com/ws", "", "https://www.olipicus.com/")
+					if err = app.replyText(event.ReplyToken, "ยินดีต้อนรับ "+profile.DisplayName); err != nil {
+						log.Fatal(err)
+					}
+
+				} else if message.Text == "M" {
+					memberObj, err := app.memberService.GetMemberByLineID(profile.UserID)
 					if err != nil {
 						log.Fatal(err)
 					}
 
-					message := []byte("update")
-					_, err = ws.Write(message)
+					listMember, _ := app.memberService.AssignDay(memberObj.Get_id())
+
+					for _, member := range listMember {
+						if _, err := app.bot.PushMessage(member.LineID, linebot.NewTextMessage(memberObj.Name+" ได้เป็นสมาชิก วันเดียวกับคุณ")).Do(); err != nil {
+							log.Fatal(err)
+						}
+					}
+
+					memberObj, err = app.memberService.GetMemberByLineID(profile.UserID)
 					if err != nil {
 						log.Fatal(err)
 					}
-					fmt.Printf("Send: %s\n", message)
 
+				} else {
+					if err = app.replyText(event.ReplyToken, "พิมพ์ให้มันถูก ๆ หน่อย "); err != nil {
+						log.Fatal(err)
+					}
 				}
 
 				if err != nil {
-					app.replyText(event.ReplyToken, err.Error())
+					log.Fatal("Get Line Profile Error")
 				}
-				if _, err = app.bot.ReplyMessage(
-					event.ReplyToken,
-					linebot.NewTextMessage("สวัสดีคุณ "+profile.DisplayName+"คุณบอกว่า"+message.Text)).Do(); err != nil {
-					log.Print(err)
+
+				ws, err := websocket.Dial("wss://www.olipicus.com/ws", "", "https://www.olipicus.com/")
+				if err != nil {
+					log.Fatal(err)
 				}
+
+				wsMessage := []byte("update")
+				_, err = ws.Write(wsMessage)
+				if err != nil {
+					log.Fatal(err)
+				}
+				fmt.Printf("Send: %s\n", wsMessage)
+
 			}
 		}
 	}

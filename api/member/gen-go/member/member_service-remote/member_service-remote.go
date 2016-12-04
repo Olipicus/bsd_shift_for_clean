@@ -26,6 +26,7 @@ func Usage() {
 	fmt.Fprintln(os.Stderr, "  ResultDay getResultByDay(string day)")
 	fmt.Fprintln(os.Stderr, "   getNotAssign()")
 	fmt.Fprintln(os.Stderr, "  void addMember(Member member)")
+	fmt.Fprintln(os.Stderr, "  Member getMemberByLineID(string line_id)")
 	fmt.Fprintln(os.Stderr)
 	os.Exit(0)
 }
@@ -171,24 +172,34 @@ func main() {
 			fmt.Fprintln(os.Stderr, "AddMember requires 1 args")
 			flag.Usage()
 		}
-		arg21 := flag.Arg(1)
-		mbTrans22 := thrift.NewTMemoryBufferLen(len(arg21))
-		defer mbTrans22.Close()
-		_, err23 := mbTrans22.WriteString(arg21)
-		if err23 != nil {
+		arg23 := flag.Arg(1)
+		mbTrans24 := thrift.NewTMemoryBufferLen(len(arg23))
+		defer mbTrans24.Close()
+		_, err25 := mbTrans24.WriteString(arg23)
+		if err25 != nil {
 			Usage()
 			return
 		}
-		factory24 := thrift.NewTSimpleJSONProtocolFactory()
-		jsProt25 := factory24.GetProtocol(mbTrans22)
+		factory26 := thrift.NewTSimpleJSONProtocolFactory()
+		jsProt27 := factory26.GetProtocol(mbTrans24)
 		argvalue0 := member.NewMember()
-		err26 := argvalue0.Read(jsProt25)
-		if err26 != nil {
+		err28 := argvalue0.Read(jsProt27)
+		if err28 != nil {
 			Usage()
 			return
 		}
 		value0 := argvalue0
 		fmt.Print(client.AddMember(value0))
+		fmt.Print("\n")
+		break
+	case "getMemberByLineID":
+		if flag.NArg()-1 != 1 {
+			fmt.Fprintln(os.Stderr, "GetMemberByLineID requires 1 args")
+			flag.Usage()
+		}
+		argvalue0 := flag.Arg(1)
+		value0 := argvalue0
+		fmt.Print(client.GetMemberByLineID(value0))
 		fmt.Print("\n")
 		break
 	case "":

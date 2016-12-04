@@ -136,7 +136,7 @@ func (srv MemberService) AddMember(objMember *member.Member) (err error) {
 	defer mgh.Close()
 
 	collection := mgh.GetCollecitonObj("member")
-	count, err := collection.Find(bson.M{"line_id": objMember.LineID}).Count()
+	count, err := collection.Find(bson.M{"lineid": objMember.LineID}).Count()
 
 	if err != nil {
 		return err
@@ -147,6 +147,17 @@ func (srv MemberService) AddMember(objMember *member.Member) (err error) {
 	}
 
 	return err
+}
+
+//GetMemberByLineID Function
+func (srv MemberService) GetMemberByLineID(lineid string) (objMember *member.Member, err error) {
+	mgh := srv.getMongoHelper()
+	defer mgh.Close()
+
+	collection := mgh.GetCollecitonObj("member")
+	err = collection.Find(bson.M{"lineid": lineid}).One(&objMember)
+
+	return
 }
 
 //RandomDay Function
