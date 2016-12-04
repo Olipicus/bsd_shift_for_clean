@@ -3,6 +3,7 @@ package memberimp
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"math"
 	"math/rand"
 	"os"
@@ -74,6 +75,9 @@ func (srv MemberService) GetNotAssign() (listMember []*member.Member, err error)
 
 //AssignDay : Implement
 func (srv MemberService) AssignDay(id string) (listMember []*member.Member, err error) {
+
+	log.Printf("AssignDay Call")
+
 	mgh := srv.getMongoHelper()
 	defer mgh.Close()
 
@@ -231,6 +235,8 @@ func getDayAvailable(id string, mgh *mongo.Helper) string {
 	allMember, memberHasDay, memberInDay := getCount(id, day, mgh)
 	maxMemberInDay := calMaxMemberInDay(allMember, memberHasDay, len(dayList))
 
+	log.Printf("getDayAvailable : %v %v %v", allMember, memberHasDay, memberInDay)
+
 	if memberInDay < maxMemberInDay && day != "Monday" {
 		return day
 	}
@@ -242,7 +248,7 @@ func assignDay(id string, mgh *mongo.Helper) (member member.Member) {
 
 	mgh.GetOneDataToObj("member", id, &member)
 
-	//log.Printf("%v", objMember)
+	log.Printf("assignDay Call : %v", member)
 
 	//Don't Assign Day if already have day
 	if member.Day != "" {
