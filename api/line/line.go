@@ -1,8 +1,11 @@
 package line
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+
+	"golang.org/x/net/websocket"
 
 	"code.olipicus.com/bsd_shift_for_clean/api/member/gen-go/member"
 	"code.olipicus.com/bsd_shift_for_clean/api/member/memberimp"
@@ -60,6 +63,19 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 					}
 
 					app.memberService.AddMember(&objMember)
+
+					ws, err := websocket.Dial("wss://www.olipicus.com/ws", "", "https://www.olipicus.com/")
+					if err != nil {
+						log.Fatal(err)
+					}
+
+					message := []byte("update")
+					_, err = ws.Write(message)
+					if err != nil {
+						log.Fatal(err)
+					}
+					fmt.Printf("Send: %s\n", message)
+
 				}
 
 				if err != nil {

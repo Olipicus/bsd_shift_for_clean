@@ -135,7 +135,18 @@ func (srv MemberService) AddMember(objMember *member.Member) (err error) {
 	mgh := srv.getMongoHelper()
 	defer mgh.Close()
 
-	return mgh.InsertData("member", objMember)
+	collection := mgh.GetCollecitonObj("member")
+	count, err := collection.Find(bson.M{"line_id": objMember.LineID}).Count()
+
+	if err != nil {
+		return err
+	}
+
+	if count == 0 {
+		err = mgh.InsertData("member", objMember)
+	}
+
+	return err
 }
 
 //RandomDay Function
