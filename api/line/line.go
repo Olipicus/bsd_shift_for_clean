@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	"golang.org/x/net/websocket"
 
@@ -72,7 +73,21 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 						log.Fatal(err)
 					}
 
-				} else if message.Text == "M" {
+				} else if strings.Contains(message.Text, "จัน") ||
+					strings.Contains(message.Text, "อัง") ||
+					strings.Contains(message.Text, "พุธ") ||
+					strings.Contains(message.Text, "พฤหัส") ||
+					strings.Contains(message.Text, "ศุก") ||
+					strings.Contains(message.Text, "Mon") ||
+					strings.Contains(message.Text, "Tue") ||
+					strings.Contains(message.Text, "Wed") ||
+					strings.Contains(message.Text, "Thu") ||
+					strings.Contains(message.Text, "Fri") ||
+					strings.Contains(message.Text, "mon") ||
+					strings.Contains(message.Text, "tue") ||
+					strings.Contains(message.Text, "wed") ||
+					strings.Contains(message.Text, "thu") ||
+					strings.Contains(message.Text, "fri") {
 					memberObj, err := app.memberService.GetMemberByLineID(profile.UserID)
 					if err != nil {
 						log.Fatal(err)
@@ -81,6 +96,7 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 					id, _ := app.memberService.GetIDByLineID(memberObj.LineID)
 					listMember, _ := app.memberService.AssignDay(id)
 
+					var memberText string
 					for _, member := range listMember {
 						if member.LineID == memberObj.LineID {
 							if err = app.replyText(event.ReplyToken, "ยินดีด้วยคุณได้อยู่ "+member.Day); err != nil {
@@ -91,10 +107,22 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 						if _, err := app.bot.PushMessage(member.LineID, linebot.NewTextMessage(memberObj.Name+" ได้เป็นสมาชิก วันเดียวกับคุณ ("+member.Day+")")).Do(); err != nil {
 							log.Fatal(err)
 						}
+
+						memberText += member.Name + " "
+					}
+
+					if err = app.replyText(event.ReplyToken, "สมาชิกตอนนี้มีดังนี้ "+memberText); err != nil {
+						log.Fatal(err)
+					}
+
+				} else if strings.Contains(message.Text, "เสาร์") ||
+					strings.Contains(message.Text, "อาทิตย์") {
+					if err = app.replyText(event.ReplyToken, "อยากมาทำวันหยุด จริง ๆ เหรอฟระ พิมพ์ใหม่ จันทร์ - ศุกร์ เฟร้ย...."); err != nil {
+						log.Fatal(err)
 					}
 
 				} else {
-					if err = app.replyText(event.ReplyToken, "พิมพ์ให้มันถูก ๆ หน่อย "); err != nil {
+					if err = app.replyText(event.ReplyToken, "พิมพ์ให้มันถูก ๆ หน่อย จันทร์ - ศุกร์ อยากอยู่วันไหนบอกมา"); err != nil {
 						log.Fatal(err)
 					}
 				}
