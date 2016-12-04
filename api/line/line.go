@@ -55,6 +55,10 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 			case *linebot.TextMessage:
 				profile, err := app.bot.GetProfile(event.Source.UserID).Do()
 
+				if err != nil {
+					log.Fatal("Get Line Profile Error")
+				}
+
 				if message.Text == "Hi" {
 					objMember := member.Member{
 						LineID: profile.UserID,
@@ -78,24 +82,21 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 					listMember, _ := app.memberService.AssignDay(id)
 
 					for _, member := range listMember {
-						if _, err := app.bot.PushMessage(member.LineID, linebot.NewTextMessage(memberObj.Name+" ได้เป็นสมาชิก วันเดียวกับคุณ")).Do(); err != nil {
+						if member.LineID == memberObj.LineID {
+							if err = app.replyText(event.ReplyToken, "ยินดีด้วยคุณได้อยู่ "+member.Day); err != nil {
+								log.Fatal(err)
+							}
+						}
+
+						if _, err := app.bot.PushMessage(member.LineID, linebot.NewTextMessage(memberObj.Name+" ได้เป็นสมาชิก วันเดียวกับคุณ ("+member.Day+")")).Do(); err != nil {
 							log.Fatal(err)
 						}
-					}
-
-					memberObj, err = app.memberService.GetMemberByLineID(profile.UserID)
-					if err != nil {
-						log.Fatal(err)
 					}
 
 				} else {
 					if err = app.replyText(event.ReplyToken, "พิมพ์ให้มันถูก ๆ หน่อย "); err != nil {
 						log.Fatal(err)
 					}
-				}
-
-				if err != nil {
-					log.Fatal("Get Line Profile Error")
 				}
 
 				ws, err := websocket.Dial("wss://www.olipicus.com/ws", "", "https://www.olipicus.com/")
