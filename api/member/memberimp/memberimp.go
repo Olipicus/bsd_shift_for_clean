@@ -171,7 +171,7 @@ func (srv MemberService) GetIDByLineID(lineid string) (string, error) {
 		ID bson.ObjectId `bson:"_id"`
 	}
 
-	err := collection.Find(bson.M{"lineid": lineid}).Select(bson.M{"_id": 1}).All(&result)
+	err := collection.Find(bson.M{"lineid": lineid}).Select(bson.M{"_id": 1}).One(&result)
 	if err != nil {
 		return "", err
 	}
