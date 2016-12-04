@@ -103,10 +103,10 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 							if err = app.replyText(event.ReplyToken, "ยินดีด้วยคุณได้อยู่ "+member.Day); err != nil {
 								log.Fatal(err)
 							}
-						}
-
-						if _, err := app.bot.PushMessage(member.LineID, linebot.NewTextMessage(memberObj.Name+" ได้เป็นสมาชิก วันเดียวกับคุณ ("+member.Day+")")).Do(); err != nil {
-							log.Fatal(err)
+						} else {
+							if _, err := app.bot.PushMessage(member.LineID, linebot.NewTextMessage(memberObj.Name+" ได้เป็นสมาชิก วันเดียวกับคุณ ("+member.Day+")")).Do(); err != nil {
+								log.Fatal(err)
+							}
 						}
 
 						memberText += member.Name + " "
