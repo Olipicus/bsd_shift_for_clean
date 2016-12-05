@@ -7,6 +7,7 @@ import (
 	"math"
 	"math/rand"
 	"os"
+	"strings"
 	"sync"
 	"time"
 
@@ -218,16 +219,24 @@ func getCount(id string, day string, mgh *mongo.Helper) (int, int, int) {
 	return allMember, memberHasDay, memberInDay
 }
 
-func getDayAvailable(id string, mgh *mongo.Helper) string {
+func getDayAvailable(id string, member *member.Member, mgh *mongo.Helper) string {
+	/*
+		valiant := map[string]bool{
+			"577e71c66d0a327f2293343d": true,
+			"577e71d16d0a227f2293345e": true,
+			"577e81da6d0a227f2293343f": true,
+			"577e72e86d0a227f22933440": true,
+		}
 
-	valiant := map[string]bool{
-		"577e71c66d0a327f2293343d": true,
-		"577e71d16d0a227f2293345e": true,
-		"577e81da6d0a227f2293343f": true,
-		"577e72e86d0a227f22933440": true,
-	}
+		if valiant[id] {
+			return "Monday"
+		}
+	*/
 
-	if valiant[id] {
+	if strings.Contains(member.Name, "Tong") ||
+		strings.Contains(member.Name, ":iuno:") ||
+		strings.Contains(member.Name, "Krit") ||
+		strings.Contains(member.Name, "zochai") {
 		return "Monday"
 	}
 
@@ -240,7 +249,7 @@ func getDayAvailable(id string, mgh *mongo.Helper) string {
 	if memberInDay < maxMemberInDay && day != "Monday" {
 		return day
 	}
-	return getDayAvailable(id, mgh)
+	return getDayAvailable(id, member, mgh)
 
 }
 
@@ -255,7 +264,7 @@ func assignDay(id string, mgh *mongo.Helper) (member member.Member) {
 		return member
 	}
 
-	day := getDayAvailable(id, mgh)
+	day := getDayAvailable(id, &member, mgh)
 
 	mu.Lock()
 	member.Day = day
