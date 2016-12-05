@@ -13,7 +13,7 @@
       <div class="ui divided items">
       <div ng-repeat="member in day.members">
         <div class="ui tiny circular image middle aligned"  style="padding:4px; width:100px;">
-          <img ng-src="{{'./images/member/' + member.pic}}">
+          <img ng-src="{{member.pic}}">
         </div>
         <span>
           {{member.name}}
@@ -26,7 +26,7 @@
 <h2 class="ui center aligned block header" ng-show="waitList">
   <div class="ui horizontal list" >
     <div class="ui tiny circular image middle aligned"  style="padding:4px; width:80px;" ng-repeat="member in waitList">
-      <img ng-src="{{'./images/member/' + member.pic}}">
+      <img ng-src="{{member.pic}}">
     </div>
   </div>
 </h2>
