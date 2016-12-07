@@ -25,12 +25,14 @@
 </div>
 <h2 class="ui center aligned block header" ng-show="waitList">
   <div class="ui horizontal list" >
-    <div class="ui tiny circular image middle aligned"  style="padding:4px; width:80px;" ng-repeat="member in waitList">
+    <div ng-repeat="member in waitList">
+    <div class="ui tiny circular image middle aligned"  style="padding:4px; width:80px;" >
       <img ng-src="{{member.pic}}">
     </div>
     <span>
       {{member.name}}
     </span>
+    </div>
   </div>
 </h2>
 </div>
