@@ -1,7 +1,7 @@
 /webfront/bower_components/
 /mongodata/
 /backup/
-/.vscode/
+**/.vscode/
 
 
 # Created by https://www.gitignore.io/api/go,node
