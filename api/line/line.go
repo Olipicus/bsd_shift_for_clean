@@ -61,6 +61,8 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 					log.Fatal("Get Line Profile Error")
 				}
 
+				profile.PictureURL = strings.Replace(profile.PictureURL, "http://", "https://", 1)
+
 				memberObj, err := app.memberService.GetMemberByLineID(profile.UserID)
 
 				if err == mgo.ErrNotFound {
