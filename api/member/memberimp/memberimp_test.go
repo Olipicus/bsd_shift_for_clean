@@ -100,29 +100,32 @@ func TestAssignDay(t *testing.T) {
 		done <- true
 		log.Printf("%v", obj)
 	}
-	go callFunc("577e71c66d0a327f2293343d")
-	go callFunc("577e71d16d0a227f2293345e")
-	go callFunc("577e81da6d0a227f2293343f")
-	go callFunc("577e72e86d0a227f22933440")
-	go callFunc("577e71f16d0a327f22933441")
-	go callFunc("577e7b1e6d0a227f22033444")
-	go callFunc("577e7b336d0a527f22933445")
-	go callFunc("577e7b3d6d0a227f22933546")
-	go callFunc("577e7b486d0a227f22933847")
-	go callFunc("577e7b626d0a227f02933448")
-	go callFunc("577e7b626d0a227f22933489")
-	go callFunc("577e7bb56d0a227f2193344a")
-	go callFunc("579e7bb56d0a227f2293344b")
-	go callFunc("577e7bb56d0a227f2293344c")
-	go callFunc("577e7bb56d0a257f2293344d")
-	go callFunc("577e7bb56d9a227f2293344e")
-	go callFunc("577e7bb86d0a227f2293344f")
-	go callFunc("577e7bb56d0a227f22033450")
-	go callFunc("577e7bb56d0a227f22943451")
+	go callFunc("586235273b848801bf4630a7")
+	go callFunc("586235393b848801bf4630a8")
+	go callFunc("586235443b848801bf4630a9")
+	go callFunc("586235533b848801bf4630aa")
+	go callFunc("586235653b848801bf4630ab")
+	go callFunc("5862356b3b848801bf4630ac")
+	go callFunc("5862356d3b848801bf4630ad")
+	go callFunc("5862356e3b848801bf4630ae")
+	go callFunc("586235733b848801bf4630af")
+	go callFunc("5862357a3b848801bf4630b0")
+	go callFunc("586235853b848801bf4630b1")
+	go callFunc("586235863b848801bf4630b2")
+	go callFunc("586235963b848801bf4630b4")
+	go callFunc("5862359b3b848801bf4630b5")
+	go callFunc("586235b43b848801bf4630b6")
+	go callFunc("586235b73b848801bf4630b7")
+	go callFunc("586236153b848801bf4630b8")
+	go callFunc("5862366d3b848801bf4630b9")
+	go callFunc("5862367b3b848801bf4630ba")
+	go callFunc("586236b13b848801bf4630bb")
+	go callFunc("5888421febb6dae792ffdfd1")
+	go callFunc("5921b9198a67c9071e1d1fe9")
 
 	resultCollection := mgh.GetCollecitonObj("member")
 
-	for i := 1; i <= 19; i++ {
+	for i := 1; i <= 22; i++ {
 		<-done
 	}
 
@@ -131,7 +134,7 @@ func TestAssignDay(t *testing.T) {
 	for _, strDay := range dayList {
 		count, _ := resultCollection.Find(bson.M{"day": strDay}).Count()
 
-		if count > 4 {
+		if count > 5 {
 			t.Errorf("Result > 4 [%v : %v]", strDay, count)
 		}
 	}

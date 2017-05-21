@@ -1,6 +1,6 @@
 {
   "develop" : {
-    "mongo_address" : "127.0.0.1:8803",
+    "mongo_address" : "127.0.0.1:27017",
     "db_name" : "bsd_shift_for_clean",
     "collection" : "member"
   },
