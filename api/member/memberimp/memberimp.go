@@ -7,7 +7,6 @@ import (
 	"math"
 	"math/rand"
 	"os"
-	"strings"
 	"sync"
 	"time"
 
@@ -232,13 +231,14 @@ func getDayAvailable(id string, member *member.Member, mgh *mongo.Helper) string
 			return "Monday"
 		}
 	*/
-
-	if strings.Contains(member.Name, "Tong") ||
-		strings.Contains(member.Name, ":iuno:") ||
-		strings.Contains(member.Name, "Krit") ||
-		strings.Contains(member.Name, "zochai") {
-		return "Monday"
-	}
+	/*
+		if strings.Contains(member.Name, "Tong") ||
+			strings.Contains(member.Name, ":iuno:") ||
+			strings.Contains(member.Name, "Krit") ||
+			strings.Contains(member.Name, "zochai") {
+			return "Monday"
+		}
+	*/
 
 	day := randomDay()
 	allMember, memberHasDay, memberInDay := getCount(id, day, mgh)
