@@ -1,6 +1,7 @@
 package memberimp
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -48,7 +49,7 @@ func (srv MemberService) getMongoHelper() (mgh mongo.Helper) {
 }
 
 //GetResultByDay : implement
-func (srv MemberService) GetResultByDay(day string) (result *member.ResultDay, err error) {
+func (srv MemberService) GetResultByDay(ctx context.Context, day string) (result *member.ResultDay, err error) {
 	mgh := srv.getMongoHelper()
 	defer mgh.Close()
 
@@ -63,7 +64,7 @@ func (srv MemberService) GetResultByDay(day string) (result *member.ResultDay, e
 }
 
 //GetNotAssign : implement
-func (srv MemberService) GetNotAssign() (listMember []*member.Member, err error) {
+func (srv MemberService) GetNotAssign(ctx context.Context) (listMember []*member.Member, err error) {
 	mgh := srv.getMongoHelper()
 	defer mgh.Close()
 
@@ -74,7 +75,7 @@ func (srv MemberService) GetNotAssign() (listMember []*member.Member, err error)
 }
 
 //AssignDay : Implement
-func (srv MemberService) AssignDay(id string) (listMember []*member.Member, err error) {
+func (srv MemberService) AssignDay(ctx context.Context, id string) (listMember []*member.Member, err error) {
 
 	log.Printf("AssignDay Call")
 
@@ -99,7 +100,7 @@ func (srv MemberService) AssignDay(id string) (listMember []*member.Member, err 
 }
 
 //GetMember : Implement
-func (srv MemberService) GetMember(id string) (objMember *member.Member, err error) {
+func (srv MemberService) GetMember(ctx context.Context, id string) (objMember *member.Member, err error) {
 	mgh := srv.getMongoHelper()
 	defer mgh.Close()
 
@@ -109,7 +110,7 @@ func (srv MemberService) GetMember(id string) (objMember *member.Member, err err
 }
 
 //GetResults : Implement
-func (srv MemberService) GetResults() (listResult []*member.ResultDay, err error) {
+func (srv MemberService) GetResults(ctx context.Context) (listResult []*member.ResultDay, err error) {
 	mgh := srv.getMongoHelper()
 	defer mgh.Close()
 
@@ -135,7 +136,7 @@ func (srv MemberService) GetResults() (listResult []*member.ResultDay, err error
 }
 
 //NewMember Function
-func (srv MemberService) AddMember(objMember *member.Member) (err error) {
+func (srv MemberService) AddMember(ctx context.Context, objMember *member.Member) (err error) {
 	mgh := srv.getMongoHelper()
 	defer mgh.Close()
 
@@ -154,7 +155,7 @@ func (srv MemberService) AddMember(objMember *member.Member) (err error) {
 }
 
 //GetMemberByLineID Function
-func (srv MemberService) GetMemberByLineID(lineid string) (objMember *member.Member, err error) {
+func (srv MemberService) GetMemberByLineID(ctx context.Context, lineid string) (objMember *member.Member, err error) {
 	mgh := srv.getMongoHelper()
 	defer mgh.Close()
 
@@ -165,7 +166,7 @@ func (srv MemberService) GetMemberByLineID(lineid string) (objMember *member.Mem
 }
 
 //GetIDByLineID Function
-func (srv MemberService) GetIDByLineID(lineid string) (string, error) {
+func (srv MemberService) GetIDByLineID(ctx context.Context, lineid string) (string, error) {
 	mgh := srv.getMongoHelper()
 	defer mgh.Close()
 

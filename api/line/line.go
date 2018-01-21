@@ -1,6 +1,7 @@
 package line
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -37,6 +38,7 @@ func NewLineApp(channelSecret string, channelToken string, service *memberimp.Me
 
 //CallbackHandler : handler
 func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := context.Background()
 	events, err := app.bot.ParseRequest(r)
 	if err != nil {
 		if err == linebot.ErrInvalidSignature {
@@ -61,7 +63,7 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 					log.Fatal("Get Line Profile Error")
 				}
 
-				memberObj, err := app.memberService.GetMemberByLineID(profile.UserID)
+				memberObj, err := app.memberService.GetMemberByLineID(ctx, profile.UserID)
 
 				if err == mgo.ErrNotFound {
 					if message.Text == "Hi" {
@@ -69,10 +71,10 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 						objMember := member.Member{
 							LineID: profile.UserID,
 							Name:   profile.DisplayName,
-							Pic:    profile.PictureURL,
+							Pic:    profile.PicutureURL,
 						}
 
-						app.memberService.AddMember(&objMember)
+						app.memberService.AddMember(ctx, &objMember)
 						app.replyText(event.ReplyToken, "ยินดีต้อนรับ "+profile.DisplayName)
 					} else {
 						app.replyText(event.ReplyToken, "คุณยังไม่ได้เป็นสมาชิก พิมพ์ Hi เพื่อเข้าร่วมสิ "+profile.DisplayName)
@@ -96,8 +98,8 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 						strings.Contains(message.Text, "thu") ||
 						strings.Contains(message.Text, "fri") {
 
-						id, _ := app.memberService.GetIDByLineID(memberObj.LineID)
-						listMember, _ := app.memberService.AssignDay(id)
+						id, _ := app.memberService.GetIDByLineID(ctx, memberObj.LineID)
+						listMember, _ := app.memberService.AssignDay(ctx, id)
 
 						var memberText string
 						for _, member := range listMember {

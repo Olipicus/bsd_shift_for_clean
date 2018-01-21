@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"log"
@@ -102,7 +103,8 @@ func NewThriftHandlerFunc(processor thrift.TProcessor,
 		w.Header().Add("Content-Type", "application/x-thrift")
 
 		transport := thrift.NewStreamTransport(r.Body, w)
-		bool, err := processor.Process(inPfactory.GetProtocol(transport), outPfactory.GetProtocol(transport))
+		ctx := context.Background()
+		bool, err := processor.Process(ctx, inPfactory.GetProtocol(transport), outPfactory.GetProtocol(transport))
 
 		if !bool {
 			fmt.Printf("%v", err)
