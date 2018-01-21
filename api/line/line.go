@@ -60,7 +60,7 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 				profile, err := app.bot.GetProfile(event.Source.UserID).Do()
 
 				if err != nil {
-					log.Fatal("Get Line Profile Error")
+					log.Fatal("Get Line Profile Error : " + err.Error())
 				}
 
 				memberObj, err := app.memberService.GetMemberByLineID(ctx, profile.UserID)
