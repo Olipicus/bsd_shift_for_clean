@@ -54,11 +54,8 @@ func (app *LineApp) CallbackHandler(w http.ResponseWriter, r *http.Request) {
 
 	log.Printf("Got events %v", events)
 	for _, event := range events {
-		profile, err := app.bot.GetProfile(event.Source.UserID).Do()
+		profile, _ := app.bot.GetProfile(event.Source.UserID).Do()
 		if event.Type == linebot.EventTypeMessage {
-			if err != nil {
-				log.Fatal("Get Line Profile Error : " + err.Error())
-			}
 			switch message := event.Message.(type) {
 			case *linebot.TextMessage:
 				memberObj, err := app.memberService.GetMemberByLineID(ctx, profile.UserID)
